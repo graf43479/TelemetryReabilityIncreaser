@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryEngine", "TelemetryEngine\TelemetryEngine.csproj", "{4B636CBA-208D-48A7-9F78-3C42BEA49EA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelemetryEngine", "TelemetryEngine\TelemetryEngine.csproj", "{4B636CBA-208D-48A7-9F78-3C42BEA49EA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseApplication", "BaseApplicatiion\BaseApplication.csproj", "{61287767-45A5-41C7-BFD0-6DFC83CE838E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4B636CBA-208D-48A7-9F78-3C42BEA49EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B636CBA-208D-48A7-9F78-3C42BEA49EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B636CBA-208D-48A7-9F78-3C42BEA49EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61287767-45A5-41C7-BFD0-6DFC83CE838E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61287767-45A5-41C7-BFD0-6DFC83CE838E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61287767-45A5-41C7-BFD0-6DFC83CE838E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61287767-45A5-41C7-BFD0-6DFC83CE838E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
