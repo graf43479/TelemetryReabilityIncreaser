@@ -1,9 +1,11 @@
 
 /.vs/*
-/BaseApplication/bin
-/BaseApplication/obj
+/Initializer/bin
+/Initializer/obj
 /TelemetryEngine/bin
 /TelemetryEngine/obj
+/GUI/bin
+/GUI/obj
 /packages/
 *.txt
 *.exe
