@@ -10,7 +10,8 @@ namespace TelemetryEngine
     {
         private int channel = 0;
         private int intensity = 0;
-        
+
+        public RawDataMatrix(int m, int n) : base(m,n)       { }
         public RawDataMatrix(int[,] data) : base (data)        { }
 
         /// <summary>
@@ -26,10 +27,14 @@ namespace TelemetryEngine
             this.intensity = intensity;
         }
 
+
         /// <summary>
         /// Имя матрицы, основанное на сочетании номера канала и интенсивности помех
         /// </summary>
         public string Name => "m" + channel + "_" + intensity;
+
+
+
 
         /// <summary>
         /// Сопостовление матриц

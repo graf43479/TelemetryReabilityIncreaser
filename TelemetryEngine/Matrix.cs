@@ -11,6 +11,12 @@ namespace TelemetryEngine
     {
         protected int[,] data;
         
+        public Matrix(int m, int n)
+        {            
+            data = new int[m,n];
+            
+            ProccessFunctionWithData((i, j) => data[i, j] = 0);
+        }
 
         public Matrix(int[,] data)
         {

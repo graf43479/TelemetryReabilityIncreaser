@@ -41,6 +41,7 @@ namespace GUI
             }
 
             Matrix mBase = new Matrix(path, "mBase");
+            Matrix mW = new Matrix(path, "mW5");
 
             IEnumerable<string> allCases = GetFilteredCombinations(6, 5);
             //проверка на уникальность
@@ -48,7 +49,7 @@ namespace GUI
 
             List<RawDataMatrix> resultMatrixes = new List<RawDataMatrix>();
 
-            string testCase = allCases.Skip(150).First();
+            string testCase = allCases.Skip(190).First();
             Console.WriteLine("Тестовый вариант:" + testCase);
             Console.WriteLine("Имена матриц для обобщенного массива:");
             for (int i = 0; i < testCase.Length; i++)
@@ -63,6 +64,12 @@ namespace GUI
             {
                 Console.WriteLine($"Matrix {m.Name}. Mismathces: {m.GetMismatches(mBase)}");
             }
+
+            //начало основного алгоритма
+            //public TelemetryEngine(List<RawDataMatrix> matrixes, Matrix mWeights, Matrix mBase)
+            MatrixProcessor processor = new MatrixProcessor(resultMatrixes, mW, mBase);
+            processor.Start();
+
         }
 
         /// <summary>
