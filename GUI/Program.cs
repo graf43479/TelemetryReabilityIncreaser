@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using TelemetryEngine;
 
 namespace GUI
@@ -24,66 +25,72 @@ namespace GUI
 
             string path = Directory.GetCurrentDirectory() + "/JsonData";
 
-            List<RawDataMatrix> matrixes = new List<RawDataMatrix>()
+            List<RawDataMatrix> matrixes = new List<RawDataMatrix>();
+
+            for (int i = 1; i <=5; i++)
             {
-                new RawDataMatrix(path, 1, 1),
-                new RawDataMatrix(path, 1, 2),
-                new RawDataMatrix(path, 1, 3),
-                new RawDataMatrix(path, 1, 4),
-                new RawDataMatrix(path, 1, 5),
-                new RawDataMatrix(path, 1, 6),
-
-                new RawDataMatrix(path, 2, 1),
-                new RawDataMatrix(path, 2, 2),
-                new RawDataMatrix(path, 2, 3),
-                new RawDataMatrix(path, 2, 4),
-                new RawDataMatrix(path, 2, 5),
-                new RawDataMatrix(path, 2, 6),
-
-                new RawDataMatrix(path, 3, 1),
-                new RawDataMatrix(path, 3, 2),
-                new RawDataMatrix(path, 3, 3),
-                new RawDataMatrix(path, 3, 4),
-                new RawDataMatrix(path, 3, 5),
-                new RawDataMatrix(path, 3, 6),
-
-                new RawDataMatrix(path, 4, 1),
-                new RawDataMatrix(path, 4, 2),
-                new RawDataMatrix(path, 4, 3),
-                new RawDataMatrix(path, 4, 4),
-                new RawDataMatrix(path, 4, 5),
-                new RawDataMatrix(path, 4, 6),
-
-                new RawDataMatrix(path, 5, 1),
-                new RawDataMatrix(path, 5, 2),
-                new RawDataMatrix(path, 5, 3),
-                new RawDataMatrix(path, 5, 4),
-                new RawDataMatrix(path, 5, 5),
-                new RawDataMatrix(path, 5, 6)
-            };
-
+                for (int j = 1; j <=6; j++)
+                {
+                    matrixes.Add(new RawDataMatrix(path, i, j));
+                }
+            }
+           
             foreach (var item in matrixes)
             {
                 Console.WriteLine(item.Name);
             }
 
-            //exceptions = new List<string>();
-            //exceptions = new string[];
-            //6^5
-            for (int i = 0; i < 7776; i++)
-            {
-                //TODO: отсеять лишние, оставить 251 комбинацию
-                string res = fromDeci(6, i);
-                if (res!=null)
-                {
-                    Console.WriteLine("global#: "+ globalCounter+ ". #"+ i +": "+ res);
-                }
-            }        
-    }
+            Matrix mBase = new Matrix(path, "mBase");
 
+            IEnumerable<string> allCases = GetFilteredCombinations(6, 5);
+            //проверка на уникальность
+            //Console.WriteLine($"{allCases.Count()}/{allCases.Distinct().Count()}");
+
+            List<RawDataMatrix> resultMatrixes = new List<RawDataMatrix>();
+
+            string testCase = allCases.Skip(150).First();
+            Console.WriteLine("Тестовый вариант:" + testCase);
+            Console.WriteLine("Имена матриц для обобщенного массива:");
+            for (int i = 0; i < testCase.Length; i++)
+            {
+                string m_name = $"m{i + 1}_{testCase[i]}";
+                Console.WriteLine(m_name);
+                resultMatrixes.Add(matrixes.FirstOrDefault(x => x.Name == m_name));
+            }
+            //Console.WriteLine(resultMatrixes.Count);
+            //Вывод несоответствий базовой матрице
+            foreach (RawDataMatrix m in resultMatrixes)
+            {
+                Console.WriteLine($"Matrix {m.Name}. Mismathces: {m.GetMismatches(mBase)}");
+            }
+        }
+
+        /// <summary>
+        /// Возвращает набор уникальных комбинаций для заданного числа каналов и интенсивности помех
+        /// </summary>
+        /// <param name="intensityCount">количество уровней помех</param>
+        /// <param name="channelCount">количество каналов</param>
+        /// <returns></returns>
+        private static IEnumerable<string> GetFilteredCombinations(int intensityCount, int channelCount)
+        {
+            List<string> list = new List<string>();
+            int combinations = (int)Math.Pow(intensityCount, channelCount);
+            for (int i = 0; i < combinations-1; i++)
+            {
+                Func<int, int, int, char[]> func = fromDeci;
+                string res = GetCaseFiltered(func(intensityCount, channelCount, i));
+                if (res != null)
+                {
+                    list.Add(res);
+                    //Console.WriteLine("global#: " + globalCounter + ". #" + i + ": " + res);
+                }
+            }
+            return list;
+        }
+              
         static int globalCounter = 0;
-        static List<string> exceptions = new List<string>(); 
-       static  char reVal(int num)
+        
+        static  char ReVal(int num)
         {
             if (num >= 0 && num <= 9)
                 return (char)(num + '0');
@@ -91,44 +98,60 @@ namespace GUI
                 return (char)(num - 10 + 'A');
         }
 
-        
-
-        public static string fromDeci(int baseNum, int inputNum)
+        private static string ReverseString(string srtVarable)
         {
-            string res;
-            int index = 0; 
-
-            char[] ch = new char[]{ '0', '0', '0', '0', '0'};
-            while (inputNum > 0)
-            {
-                ch[index++] = reVal(inputNum % baseNum);
-                inputNum /= baseNum;
-            }
-            res =  new string(ch);
-            char[] charArray = res.ToCharArray();
-            
-
-            string result = new string(charArray);            
-
-            foreach (var item in exceptions)
-            {
-                //TODO: Добавить случаи, когда 2 крайних, 3, крайних и т.д. совпадают
-                if (item == new string(result.ToCharArray().Reverse().ToArray()))
-                {                  
-                    return null;
-                }
-                
-                
-            }
-            
-            exceptions.Add(result);            
-            globalCounter++;
-
-            //Console.WriteLine("=>" + res);
-            Array.Reverse(charArray);            
-            return new string(charArray);
+            return new string(srtVarable.Reverse().ToArray());
         }
 
+        /// <summary>
+        /// первод из десятичной системы в произвольную
+        /// </summary>
+        /// <param name="baseNum">основание системы счисления</param>
+        /// <param name="size">битовая маска</param>
+        /// <param name="inputNum">входное значение</param>
+        /// <returns>Возвращает массив с инвертированным значением </returns>
+        private static char[] fromDeci(int baseNum, int size, int inputNum)
+        {
+            string res;
+            int index = 0;
+            char[] ch = new char[size] ;
+
+            for (int i = 0; i < ch.Length; i++)
+            {
+                ch[i] = '0';
+            }
+
+            while (inputNum > 0)
+            {                
+                ch[index++] = ReVal(inputNum % baseNum);
+                inputNum /= baseNum;
+            }
+            res = new string(ch);
+            char[] charArray = res.ToCharArray();            
+            Array.Reverse(charArray);
+            return charArray;
+        }
         
+        /// <summary>
+        /// Функция преобразования и фильтрации комбинаций
+        /// </summary>
+        /// <param name="raw">массив данных преобразованных из десятичной системы в 6-ричную</param>
+        /// <returns></returns>
+        private static string GetCaseFiltered(char[] raw)        
+        {            
+            for (int i = 0; i < raw.Length - 1; i++)
+            {
+                if (raw[i] < raw[i + 1])
+                {
+                    return null;
+                }
+            }
+            for (int i = 0; i < raw.Length; i++)
+            {
+                raw[i]++;
+            }
+            globalCounter++;
+            return ReverseString(new string(raw));            
+        }        
     }
 }

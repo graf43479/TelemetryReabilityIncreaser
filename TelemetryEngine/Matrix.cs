@@ -9,12 +9,19 @@ namespace TelemetryEngine
 {
     public class Matrix
     {
-        protected int[,] data;                
+        protected int[,] data;
+        
+
         public Matrix(int[,] data)
         {
             this.data = data;
         }
 
+        /// <summary>
+        /// Конструктор матрицы с инициализацией из json-файла
+        /// </summary>
+        /// <param name="path">путь к директории с json-объектами</param>
+        /// <param name="name">имя json-объекта для инициализации</param>
         public Matrix(string path, string name)
         {            
             string fullName = path + "/" + name + ".json";
@@ -35,27 +42,40 @@ namespace TelemetryEngine
                 Console.WriteLine($"Ошибка чтения файла {fullName}. Текст ошибки: {ex.Message}");
             }
         }
-
-        
-
+                
+        /// <summary>
+        /// индексатор
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public int this[int x, int y]
         {
             get { return data[x, y]; }
             set { data[x, y] = value; }
         }
 
-        //количество столбцов (N)
+        /// <summary>
+        /// количество столбцов (N)
+        /// </summary>        
         public int GetXSize()
         {
             return data.GetLength(0);
         }
 
-        //количество строк (M)
+
+        /// <summary>
+        /// количество строк (M)
+        /// </summary> 
         public int GetYSize() 
         {
             return data.GetLength(1);
         }
 
+        /// <summary>
+        /// Обертка для манипуляций с данными
+        /// </summary>
+        /// <param name="func">лямбда для работы с i,j -ым элементом массива</param>
         public void ProccessFunctionWithData(Action<int, int> func)
         {
             for (int i = 0; i < this.GetXSize(); i++)
