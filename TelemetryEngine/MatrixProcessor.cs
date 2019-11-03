@@ -19,13 +19,13 @@ namespace TelemetryEngine
                 
         private int k = -1;              //текущая достоверность
 
-        private List<RawDataMatrix> matrixes;
+        private ICollection<RawDataMatrix> matrixes;
         private Matrix mW;
         private Matrix mBase;
 
         private RawDataMatrix mResult;
 
-        public MatrixProcessor(List<RawDataMatrix> matrixes, Matrix mWeights, Matrix mBase)
+        public MatrixProcessor(ICollection<RawDataMatrix> matrixes, Matrix mWeights, Matrix mBase)
         {
             this.matrixes = matrixes;
             mW = mWeights;
@@ -58,18 +58,18 @@ namespace TelemetryEngine
         }
 
         //функция возвращает количество ошибок итоговой матрицы по сравнению с эталонной 
-        private int CheckReliability(RawDataMatrix arr)
-        {
-            int counter = 0;
-            arr.ProccessFunctionWithData((i, j) =>
-            {
-                if (arr[i, j] != mBase[i, j])
-                {
-                    counter++;
-                }
-            });            
-            return counter;
-        }
+        //private int CheckReliability(RawDataMatrix arr)
+        //{
+        //    int counter = 0;
+        //    arr.ProccessFunctionWithData((i, j) =>
+        //    {
+        //        if (arr[i, j] != mBase[i, j])
+        //        {
+        //            counter++;
+        //        }
+        //    });            
+        //    return counter;
+        //}
 
         //функция возвращает результирующее значение 5 элементов на основе весов
         private int GetResultCell(int[] arr, int w)
@@ -107,12 +107,9 @@ namespace TelemetryEngine
         }
 
         //Основная функция рассчета достоерности. W - текущий весовой коэффициент
-        private void Engine(int w)
+        private void CalculateReliability(int w)
         {
             RawDataMatrix matrix = new RawDataMatrix(mBase.GetXSize(), mBase.GetYSize());
-            
-            
-            //int[,] m_tmp = new int[m,n];
             for (int i = 0; i < mBase.GetXSize(); i++)
             {
                 for (int j = 0; j < mBase.GetYSize(); j++)
@@ -136,7 +133,7 @@ namespace TelemetryEngine
                 }
             }
 
-            int k_tmp = CheckReliability(matrix);
+            int k_tmp = matrix.GetMismatches(mBase).Count(); //CheckReliability(matrix);
             Console.WriteLine($">>>Текущая достоверность: {k_tmp }<<<");
             if (k == -1 || k_tmp < k)
             {
@@ -146,19 +143,20 @@ namespace TelemetryEngine
     }
 
         //начало расчета
-        public void Start()
+        public RawDataMatrix GetResult()
         {
             int counter = 0;
             //for (int i = 0; i < w; i++)
-             for (int i = mW.GetYSize(); i >= 0; i--)
+            for (int i = mW.GetXSize()-1; i >= 0; i--)
             {
                 counter++;
-                Engine(i);
-                Console.WriteLine($"Итерация: {counter}. Текущий вес.коэф. №: {i}. Макс. достоверность: {k}");
-                //Thread.Sleep(150);
+                CalculateReliability(i);
+                Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");
+                Thread.Sleep(150);
                 if (k == 0)
                     break;
             }
+            return mResult;
         }
     }    
 }

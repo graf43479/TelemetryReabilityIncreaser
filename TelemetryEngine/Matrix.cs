@@ -46,9 +46,12 @@ namespace TelemetryEngine
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка чтения файла {fullName}. Текст ошибки: {ex.Message}");
+                data = null;
             }
         }
-                
+
+        public bool IsInitialized => data != null;
+                        
         /// <summary>
         /// индексатор
         /// </summary>

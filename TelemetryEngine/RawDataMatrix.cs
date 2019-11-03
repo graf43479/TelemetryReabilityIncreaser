@@ -10,6 +10,7 @@ namespace TelemetryEngine
     {
         private int channel = 0;
         private int intensity = 0;
+        private ICollection<Coord> mismatches;
 
         public RawDataMatrix(int m, int n) : base(m,n)       { }
         public RawDataMatrix(int[,] data) : base (data)        { }
@@ -41,18 +42,30 @@ namespace TelemetryEngine
         /// </summary>
         /// <param name="otherMtrx">другая матрица</param>
         /// <returns>Количество несовпадений между матрицами</returns>
-        public int GetMismatches(Matrix otherMtrx)
+        public IEnumerable<Coord> GetMismatches(Matrix otherMtrx)
         {
-            int mismatch=0;
+            mismatches = new List<Coord>();
             this.ProccessFunctionWithData((i, j) =>
                 {
                     if (data[i, j] != otherMtrx[i, j])
                     {
-                        mismatch++;
+                        mismatches.Add(new Coord(i, j));
                     }
                 });
-            return mismatch;
+            return mismatches;
         }
 
+    }
+
+    public class Coord
+    {
+        public int X { get; }
+        public int Y { get; }
+
+        public Coord(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }
