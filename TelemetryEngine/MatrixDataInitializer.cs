@@ -1,18 +1,14 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
-using System.Text.Json;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace BaseApplicatiion
+namespace TelemetryEngine
 {
-    //приложение генерирует исходные матрицы в JSON
-    public class MatrixDataInitializer
+    public static class MatrixDataInitializer
     {
         private readonly static string jsonPath;
         static MatrixDataInitializer()
@@ -22,25 +18,25 @@ namespace BaseApplicatiion
             {
                 Directory.Delete(jsonPath, true);
             }
-        }        
-         
-        public static async Task Generate(string[] args)
-        {            
+        }
+
+        public static async Task GenerateAsync()
+        {
             for (int i = 1; i <= 5; i++)
             {
                 await DoJsonByReflectionAsync("mW" + i);
                 for (int j = 0; j <= 6; j++)
-                {                    
-                    await DoJsonByReflectionAsync("m" + i + "_" + j);              
+                {
+                    await DoJsonByReflectionAsync("m" + i + "_" + j);
                 }
             }
 
             await DoJsonAsync(mBase, "mBase");
-            
-        }        
+
+        }
 
         private static async Task DoJsonByReflectionAsync(string name)
-        {            
+        {
             Type myType = typeof(MatrixDataInitializer);
             FieldInfo field = myType.GetRuntimeFields().FirstOrDefault(x => x.Name == name);
             if (field != null)
@@ -50,20 +46,20 @@ namespace BaseApplicatiion
         }
 
         private static async Task DoJsonAsync(int[,] array, string name)
-        {            
+        {
             if (!Directory.Exists(jsonPath))
             {
                 Directory.CreateDirectory(jsonPath);
                 //Directory.Delete(subPath);
             }
 
-                Console.WriteLine($"Начало сериализации матрицы: {name}") ;
+            Console.WriteLine($"Начало сериализации матрицы: {name}");
             try
             {
-                
+
                 string fullName = jsonPath + "/" + name + ".json";
                 byte[] bytes = Encoding.Default.GetBytes(JsonConvert.SerializeObject(array));
-                await File.WriteAllBytesAsync(fullName, bytes);              
+                await File.WriteAllBytesAsync(fullName, bytes);
                 Console.WriteLine($"Результат сериализации матрицы {name}: успех");
             }
             catch (Exception ex)
@@ -639,7 +635,7 @@ namespace BaseApplicatiion
            {0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3},
            {0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3}
         };
-        
+
         //5 канал, u>=2
         private static readonly int[,] m5_2 =
         {
@@ -1037,8 +1033,8 @@ namespace BaseApplicatiion
            {0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,0,0,1,0,0,1,2}
         };
         //===========================================================================
-   
-       //1 канал, u=6
+
+        //1 канал, u=6
         private static readonly int[,] m1_6 =
         {
            {0,0,0,1,0,0,1,2,1,2,3,3,2,3,3,3,0,0,0,1,0,0,1,2,1,2,3,3,2,3,3,3},
@@ -1163,6 +1159,5 @@ namespace BaseApplicatiion
 
         };
         //===========================================================================
-    };  
+    }
 }
-

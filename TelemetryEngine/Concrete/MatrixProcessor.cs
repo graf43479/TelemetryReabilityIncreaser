@@ -7,16 +7,12 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using TelemetryEngine.Interfaces;
 
 namespace TelemetryEngine
 {
-    public class MatrixProcessor
-    {
-        
-        //const int m = 20; //рамерность матрицы
-        //const int n = 32; //рамерность матрицы
-        //const int w = 165; //количество кортежей весовых коэффициентов
-                
+    public class MatrixProcessor : IMatrixProcessor
+    {           
         private int k = -1;              //текущая достоверность
 
         private ICollection<RawDataMatrix> matrixes;
@@ -31,45 +27,6 @@ namespace TelemetryEngine
             mW = mWeights;
             this.mBase = mBase;
         }
-        
-        
-        public void ShowData(Matrix arr)
-        {
-
-            //int sizeX = arr.GetYSize(); //число строк
-            //int sizeY = arr.GetXSize(); //число столбцов
-            arr.ProccessFunctionWithData((i, j) =>
-            {
-                Console.Write(arr[i, j] + " ");
-                if (j == arr.GetYSize()-1)
-                {
-                    Console.WriteLine("\n");
-                }
-            });
-
-            //for (int i = 0; i < sizeX; i++)
-            //{
-            //    for (int j = 0; j < sizeY; j++)
-            //    {
-            //        Console.Write(arr[i,j] + " ");
-            //    }
-            //    Console.WriteLine("\n");
-            //}
-        }
-
-        //функция возвращает количество ошибок итоговой матрицы по сравнению с эталонной 
-        //private int CheckReliability(RawDataMatrix arr)
-        //{
-        //    int counter = 0;
-        //    arr.ProccessFunctionWithData((i, j) =>
-        //    {
-        //        if (arr[i, j] != mBase[i, j])
-        //        {
-        //            counter++;
-        //        }
-        //    });            
-        //    return counter;
-        //}
 
         //функция возвращает результирующее значение 5 элементов на основе весов
         private int GetResultCell(int[] arr, int w)

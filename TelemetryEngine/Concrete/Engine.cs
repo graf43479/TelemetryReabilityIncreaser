@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TelemetryEngine.Interfaces;
 
-namespace TelemetryEngine
+namespace TelemetryEngine 
 {
     /// <summary>
     /// Класс должен подгружать исходные 30(?) матриц и формировать таблицу возможных комбинаций 
     /// Далее пользователь должен выбирать комбинации и инициировать работу движка получения обобщенного массива данных    
     /// </summary>
-    public class Engine
+    public class Engine : IEngine
     {
         private string path;
         private int intensityCount; //6
@@ -28,7 +29,7 @@ namespace TelemetryEngine
             InitializeMatrixes();
         }
 
-        private void InitializeMatrixes()
+        public void InitializeMatrixes()
         {
             matrixes = new List<RawDataMatrix>();
 
@@ -190,6 +191,6 @@ namespace TelemetryEngine
             }
             globalCounter++;
             return ReverseString(new string(raw));
-        }
+        }        
     }
 }
