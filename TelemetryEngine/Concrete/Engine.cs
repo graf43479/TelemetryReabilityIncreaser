@@ -67,10 +67,10 @@ namespace TelemetryEngine
                 throw new Exception($"Матрица весов mW{channelCount} не обнаружена. Завершение приложения");
             }
 
-            foreach (var item in matrixes)
-            {
-                Console.WriteLine(item.Name);
-            }
+            //foreach (var item in matrixes)
+            //{
+            //    Console.WriteLine(item.Name);
+            //}
 
             mBase = new Matrix(path, "mBase");
             if (!mBase.IsInitialized)
@@ -79,28 +79,41 @@ namespace TelemetryEngine
             }
         }
 
+        public Matrix Etalon => mBase;
+
         public RawDataMatrix PerformCombination(string testCase)
         {
-            Console.WriteLine("Тестовый вариант:" + testCase);
+            //Console.WriteLine("Тестовый вариант:" + testCase);
 
             resultMatrixes = new List<RawDataMatrix>();
-            Console.WriteLine("Имена матриц для обобщенного массива:");
+            //Console.WriteLine("Имена матриц для обобщенного массива:");
             for (int i = 0; i < testCase.Length; i++)
             {
                 string m_name = $"m{i + 1}_{testCase[i]}";
-                Console.WriteLine(m_name);
+               // Console.WriteLine(m_name);
                 resultMatrixes.Add(matrixes.FirstOrDefault(x => x.Name == m_name));
             }
             //Console.WriteLine(resultMatrixes.Count);
             //Вывод несоответствий базовой матрице
-            foreach (RawDataMatrix m in resultMatrixes)
-            {
-                Console.WriteLine($"Matrix {m.Name}. Mismathces: {m.GetMismatches(mBase).Count()}");
-            }
+            //foreach (RawDataMatrix m in resultMatrixes)
+            //{
+            //    Console.WriteLine($"Matrix {m.Name}. Mismathces: {m.GetMismatches(mBase).Count()}");
+            //}
 
             //начало основного алгоритма
             MatrixProcessor processor = new MatrixProcessor(resultMatrixes, mW, mBase);
             return processor.GetResult();
+        }
+
+        public IEnumerable<List<Coord>> GetMatrixDifference()
+        {
+            List<List<Coord>> allMatrixesMismatches = new List<List<Coord>>();
+            foreach (RawDataMatrix matrix in resultMatrixes)
+            {
+                IEnumerable<Coord> coords = matrix.GetMismatches(mBase);
+                allMatrixesMismatches.Add(coords.ToList());
+            }
+            return allMatrixesMismatches;
         }
 
         public bool IsValid { get;}
@@ -193,4 +206,9 @@ namespace TelemetryEngine
             return ReverseString(new string(raw));
         }        
     }
+
+    //public class MismatchCoordList
+    //{
+    //    List<Coord>
+    //}
 }

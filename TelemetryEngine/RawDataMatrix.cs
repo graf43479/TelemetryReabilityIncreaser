@@ -63,7 +63,7 @@ namespace TelemetryEngine
         public int Y { get; }
 
         public Coord(int x, int y)
-        {
+        {            
             X = x;
             Y = y;
         }

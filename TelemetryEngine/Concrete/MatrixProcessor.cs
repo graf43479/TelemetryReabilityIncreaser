@@ -91,7 +91,7 @@ namespace TelemetryEngine
             }
 
             int k_tmp = matrix.GetMismatches(mBase).Count(); //CheckReliability(matrix);
-            Console.WriteLine($">>>Текущая достоверность: {k_tmp }<<<");
+           // Console.WriteLine($">>>Текущая достоверность: {k_tmp }<<<");
             if (k == -1 || k_tmp < k)
             {
                 k = k_tmp;
@@ -108,7 +108,7 @@ namespace TelemetryEngine
             {
                 counter++;
                 CalculateReliability(i);
-                Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");
+               // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");
                 Thread.Sleep(150);
                 if (k == 0)
                     break;
