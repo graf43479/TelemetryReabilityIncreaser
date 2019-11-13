@@ -5,18 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DamageVisualizer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <DockPanel Margin="0,0,0,0" Background="Aqua" HorizontalAlignment="Left" VerticalAlignment="Top" Width="790">
+        Title="MainWindow" Height="610" Width="1198">
+    <DockPanel>
+        <DockPanel Margin="0,0,0,0" Background="Aqua" Width="1194" DockPanel.Dock="Top" Height="66">
             <Button Name="BtnGenerate" Height="32" Margin="10,10,10,10" Width="220" Content="Генерировать исходные данные" Click="BtnGenerate_Click" />
             <Button Name="BtnCalc" Content="Рассчет" Margin="0,10,10,10" Width="149" Click="BtnCalc_Click" HorizontalAlignment="Left" ></Button>
         </DockPanel>
-        <DockPanel Margin="0,57,594,10" Background="Azure">
-            <ListBox Name="ListBoxCombinations" Width="190" Height="357" GotFocus="ListBoxCombinations_GotFocus"/>
+        <DockPanel Margin="0,0,0,0" Background="BurlyWood" DockPanel.Dock="Left" Height="528">
+            <ListBox Name="ListBoxCombinations" Width="112" Margin="10,10,11,10" SelectionChanged="ListBoxCombinations_SelectionChanged"/>
         </DockPanel>
-        <DockPanel Margin="211,57,10,10" Background="AliceBlue">
-            <Image Name="img" DockPanel.Dock="Left" Width="576" Height="350" Stretch="None"/>
+        <DockPanel Margin="0,0,0,0" Background="Violet" DockPanel.Dock="top" RenderTransformOrigin="0.5,0.5" Width="1057" Height="518">
+            <Grid Background="Beige" DockPanel.Dock="Top" Width="1053" Height="60">
+                <Image Name="img" Margin="-2,0,2,1" Width="968" Height="60" />
+            </Grid>
+            <Grid Background="DarkCyan" Margin="0,1,0,0">
+                <Canvas Name="myCanvas" Width="1047" Height="447" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            </Grid>
         </DockPanel>
-
-    </Grid>
+    </DockPanel>
 </Window>

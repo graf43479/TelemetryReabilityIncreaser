@@ -108,8 +108,7 @@ namespace TelemetryEngine
             {
                 counter++;
                 CalculateReliability(i);
-               // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");
-                Thread.Sleep(150);
+               // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");                
                 if (k == 0)
                     break;
             }

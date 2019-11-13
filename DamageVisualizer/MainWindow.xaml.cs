@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -53,31 +54,58 @@ namespace DamageVisualizer
             await MatrixDataInitializer.GenerateAsync();
         }
 
-        private void ListBoxCombinations_GotFocus(object sender, RoutedEventArgs e)
+        private void ListBoxCombinations_SelectionChanged(object sender, RoutedEventArgs e)
         {
             
             var val = ListBoxCombinations.SelectedItem;
             if (engine != null & val!=null)
             {
+                EraseAllPixels();
+                myCanvas.Children.Clear();
+                //DrawCustomRectangle();
+
                 RawDataMatrix result = engine.PerformCombination(val.ToString());
                 int count = 0;
-                foreach(var mList in engine.GetMatrixDifference())
+                int xOffset = 1;
+                int yOffset = 1;
+                int pixelSize = 10;
+                foreach (var mList in engine.GetMatrixDifference())
                 {
                     
+                    //TODO: вывести в отдельный класс с высчитванием офсета
+
+                        DrawCustomRectangle(mList, pixelSize, new Coord(yOffset, xOffset));
                     //отрисовка пикселей для каждой матрицы
-                    //myCanvas.ClearValue();
                     foreach (Coord coord in mList)
                     {
                         DrawPixel(new Coord(coord.X, coord.Y + count));
                     }
                     count += 50;
+
+                    if ((myCanvas.Width - xOffset) < xOffset) //1047
+                    {
+                        yOffset += 20 * pixelSize;
+                        xOffset = 1;
+                    }
+                    else
+                    {
+                      //  yOffset = 1;
+                        xOffset += 32 * pixelSize;                       
+                        
+                    }
+                    
+
+                   
                 }
 
                 foreach (Coord coord in result.GetMismatches(engine.Etalon))
                 {
                     DrawPixel(new Coord(coord.X, coord.Y + count));
                 }
-                
+                DrawCustomRectangle(result.GetMismatches(engine.Etalon).ToList(), pixelSize, new Coord(yOffset, xOffset));
+
+                //DrawCustomRectangle(result.GetMismatches(engine.Etalon).ToList(), 10);
+
             }
             //MessageBox.Show("Hello");
         }
@@ -145,20 +173,67 @@ namespace DamageVisualizer
             }
         }
 
-        static void ErasePixel(MouseEventArgs e)
+        static void ErasePixels(IEnumerable<Coord> coords)
         {
             byte[] ColorData = { 0, 0, 0, 0 }; // B G R
 
-            Int32Rect rect = new Int32Rect(
-                    (int)(e.GetPosition(i).X),
-                    (int)(e.GetPosition(i).Y),
+            foreach (Coord coord in coords)
+            {
+                Int32Rect rect = new Int32Rect(
+                    coord.X,
+                    coord.Y,
                     1,
                     1);
-
-            writeableBitmap.WritePixels(rect, ColorData, 4, 0);
+                writeableBitmap.WritePixels(rect, ColorData, 4, 0);
+            }
         }
 
+        void EraseAllPixels()
+        {
+            List<Coord> allArea = new List<Coord>();
+            for (int i = 0; i < (int)img.Width; i++)
+            {
+                for (int j = 0; j < (int)img.Height; j++)
+                {
+                    allArea.Add(new Coord(i, j));
+                }
+            }
+            ErasePixels(allArea);
+        }
 
+        void DrawCustomRectangle(List<Coord> coords, int size, Coord offset)
+        {
+            Pen pen = new Pen(new SolidColorBrush(Color.FromRgb(200, 10, 20)), 2);
+            Rectangle border = new Rectangle
+            {
+                Height = size * 20 ,
+                Width = size * 32 ,
+                Stroke = new SolidColorBrush(Colors.Orange)
+            };
+
+            myCanvas.Children.Add(border);
+            Canvas.SetTop(border, offset.X);
+            Canvas.SetLeft(border, offset.Y);
+
+            int i = 0;
+            foreach (Coord coord in coords)
+            {
+                i++;
+                Rectangle r = new Rectangle
+                {
+                    Height = size,
+                    Width = size,
+                    Fill = new SolidColorBrush(Colors.Coral),
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    StrokeThickness = 1
+                };
+
+                r.SetValue(Grid.RowProperty, coord.X + offset.X );
+                r.SetValue(Grid.ColumnProperty, coord.Y + offset.Y);
+                myCanvas.Children.Add(r);
+                Canvas.SetTop(r,  coord.X * size + offset.X);
+                Canvas.SetLeft(r, coord.Y * size + offset.Y);
+            }           
+        }
     }
-    // MessageBox.Show((string)sender);
 }
