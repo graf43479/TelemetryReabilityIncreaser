@@ -4,6 +4,8 @@
 /Initializer/obj
 /TelemetryEngine/bin
 /TelemetryEngine/obj
+/DamageVisualizer/bin
+/DamageVisualizer/obj
 /GUI/bin
 /GUI/obj
 /packages/

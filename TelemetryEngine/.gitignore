@@ -1,7 +1,0 @@
-
-/.vs/*
-/TelemetryEngine/bin
-/TelemetryEngine/obj
-/packages/
-*.txt
-*.exe
