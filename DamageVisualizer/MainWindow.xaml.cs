@@ -32,13 +32,11 @@ namespace DamageVisualizer
             InitializeComponent();
             InitializeBitmapOptions();
             path = Directory.GetCurrentDirectory() + "/JsonData";
-
         }
 
         private void BtnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(async ()=> await GenerateDataAsync());
-            
+            Task.Run(async ()=> await GenerateDataAsync());            
         }
 
         private void BtnCalc_Click(object sender, RoutedEventArgs e)
@@ -55,26 +53,22 @@ namespace DamageVisualizer
         }
 
         private void ListBoxCombinations_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            
+        {            
             var val = ListBoxCombinations.SelectedItem;
             if (engine != null & val!=null)
             {
                 EraseAllPixels();
                 myCanvas.Children.Clear();
                 //DrawCustomRectangle();
-
                 RawDataMatrix result = engine.PerformCombination(val.ToString());
                 int count = 0;
                 int xOffset = 1;
                 int yOffset = 1;
                 int pixelSize = 10;
                 foreach (var mList in engine.GetMatrixDifference())
-                {
-                    
-                    //TODO: вывести в отдельный класс с высчитванием офсета
-
-                        DrawCustomRectangle(mList, pixelSize, new Coord(yOffset, xOffset));
+                {                    
+                    //TODO: вывести в отдельный класс с высчитыванием офсета 
+                     DrawCustomRectangle(mList, pixelSize, new Coord(yOffset, xOffset));
                     //отрисовка пикселей для каждой матрицы
                     foreach (Coord coord in mList)
                     {
@@ -89,13 +83,8 @@ namespace DamageVisualizer
                     }
                     else
                     {
-                      //  yOffset = 1;
-                        xOffset += 32 * pixelSize;                       
-                        
+                        xOffset += 32 * pixelSize;     
                     }
-                    
-
-                   
                 }
 
                 foreach (Coord coord in result.GetMismatches(engine.Etalon))
@@ -103,9 +92,6 @@ namespace DamageVisualizer
                     DrawPixel(new Coord(coord.X, coord.Y + count));
                 }
                 DrawCustomRectangle(result.GetMismatches(engine.Etalon).ToList(), pixelSize, new Coord(yOffset, xOffset));
-
-                //DrawCustomRectangle(result.GetMismatches(engine.Etalon).ToList(), 10);
-
             }
             //MessageBox.Show("Hello");
         }

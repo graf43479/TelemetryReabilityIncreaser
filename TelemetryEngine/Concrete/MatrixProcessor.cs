@@ -15,17 +15,19 @@ namespace TelemetryEngine
     {           
         private int k = -1;              //текущая достоверность
 
-        private ICollection<RawDataMatrix> matrixes;
+        private IEnumerable<RawDataMatrix> matrixes;
         private Matrix mW;
         private Matrix mBase;
 
         private RawDataMatrix mResult;
 
-        public MatrixProcessor(ICollection<RawDataMatrix> matrixes, Matrix mWeights, Matrix mBase)
-        {
-            this.matrixes = matrixes;
-            mW = mWeights;
+        public MatrixProcessor(IEnumerable<RawDataMatrix> matrixes, Matrix mWeights, Matrix mBase)
+        {          
             this.mBase = mBase;
+            mW = mWeights;
+            //матрицы ранжируются по убыванию достоверности 
+            this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).Count()).ToList();         
+           // this.matrixes = matrixes;
         }
 
         //функция возвращает результирующее значение 5 элементов на основе весов
@@ -50,6 +52,7 @@ namespace TelemetryEngine
                         vals[3] += wVal; 
                         break;
                     default:
+                        Console.WriteLine("Нештатная ситуация");
                         break;
                 }
             }           
@@ -103,15 +106,14 @@ namespace TelemetryEngine
         public RawDataMatrix GetResult()
         {
             int counter = 0;
-            //for (int i = 0; i < w; i++)
-            for (int i = mW.GetXSize()-1; i >= 0; i--)
+            for (int i = 0; i < mW.GetXSize(); i++)
             {
-                counter++;
+                 counter++;
                 CalculateReliability(i);
                // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");                
                 if (k == 0)
                     break;
-            }
+            }                      
             return mResult;
         }
     }    
