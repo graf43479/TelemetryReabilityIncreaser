@@ -6,6 +6,9 @@
 /TelemetryEngine/obj
 /DamageVisualizer/bin
 /DamageVisualizer/obj
+/DamageVisualizer.Installer/bin
+/DamageVisualizer.Installer/obj
+/DamageVisualizer.Installer/Installs
 /GUI/bin
 /GUI/obj
 /packages/
