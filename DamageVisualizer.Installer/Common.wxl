@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Company">Vorontsov</String>
+  
+  <String Id="ProductNameFolder">DamageVisualizer (32-bit)</String>
+
+  <String Id="ProductName_x86">Damage Visualizer (32-bit)</String>
+  <String Id="ProductName_x64">Damage Visualizer (64-bit)</String>
+
+  <String Id="Language">1033</String>
+
+
+  <String Id="Description">This is description</String>
+  <String Id="Keywords">dotnet.core, aplication, telemetry, installer</String>
+  <String Id="Comments">Some comment</String>
+
+  <String Id="DowngradeErrorMessage">A newer version is already installed</String>
+
+  </WixLocalization>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <!--Product components-->
+    <ComponentGroup Id="ProductComponents" > <!--Directory="INSTALLFOLDER"-->
+      <!--Shortcut-->
+      <ComponentRef Id="MainAppShortCut"/>
+    </ComponentGroup>
+<!--Installed files-->
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="..\DamageVisualizer\bin\Debug\netcoreapp3.0\win-$(var.Platform)\publish\">
+      <!--Shortcut to main app-->
+      <Component Id="MainAppShortCut" Guid="{68F3E7B5-8B86-442C-96E5-F77231E5CCB6}">
+        
+        <Shortcut Id="MainAppShortCut"
+                  Name="!(loc.ProductName_$(var.Platform))"
+                  Target="[INSTALLFOLDER]DamageVisualizer.exe"
+                  Directory="InstallProgramMenuFolder"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="favicon.ico"
+                  />
+        <!--Unique key for this component/shortcut-->
+        <RegistryValue Id="RegShortcutKey"
+                       Root="HKCU"
+                       Key="SOFTWARE\$(loc.ProductNameFolder)"
+                       Name="Shortcut"
+                       Value="1"
+                       Type="integer"
+                       KeyPath="yes"
+                       />
+        <!--Remove start menu items-->
+        <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/> 
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
