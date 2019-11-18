@@ -77,7 +77,7 @@
     </PropertyGroup>
     <!--Harvest file components from publish folder-->
     <HeatDirectory
-      OutputFile ="ComponentGenerated.wxs"
+      OutputFile ="ComponentsGenerated.wxs"
       DirectoryRefId="INSTALLFOLDER"
       ComponentGroupName="PublishedComponents"
       SuppressCom="true"
