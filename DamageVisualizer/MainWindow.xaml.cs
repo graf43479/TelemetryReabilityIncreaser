@@ -49,8 +49,7 @@ namespace DamageVisualizer
         private void BtnCalc_Click(object sender, RoutedEventArgs e)
         {
             engine = new Engine(path);
-             IEnumerable<string> combinations = engine.GetFilteredCombinations();
-            ListBoxCombinations.ItemsSource = combinations;
+            ListBoxCombinations.ItemsSource = engine.GetFilteredCombinations();
         }
 
         /// <summary>

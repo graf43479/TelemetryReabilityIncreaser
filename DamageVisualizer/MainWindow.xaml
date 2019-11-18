@@ -8,8 +8,8 @@
         Title="MainWindow" Height="610" Width="1198">
     <DockPanel>
         <DockPanel Margin="0,0,0,0" Background="Aqua" Width="1194" DockPanel.Dock="Top" Height="66">
-            <Button Name="BtnGenerate" Height="32" Margin="10,10,10,10" Width="220" Content="Генерировать исходные данные" Click="BtnGenerate_Click" />
-            <Button Name="BtnCalc" Content="Рассчет" Margin="0,10,10,10" Width="149" Click="BtnCalc_Click" HorizontalAlignment="Left" ></Button>
+            <Button Name="BtnGenerate" Height="35" Margin="10,10,10,10" Width="220" Content="Генерировать исходные данные" Click="BtnGenerate_Click" />
+            <Button Name="BtnCalc" Height="35" Content="Рассчет" Margin="0,10,10,10" Width="149" Click="BtnCalc_Click" HorizontalAlignment="Left" ></Button>
         </DockPanel>
         <DockPanel Margin="0,0,0,0" Background="BurlyWood" DockPanel.Dock="Left" Height="528">
             <ListBox Name="ListBoxCombinations" Width="112" Margin="10,10,11,10" SelectionChanged="ListBoxCombinations_SelectionChanged"/>

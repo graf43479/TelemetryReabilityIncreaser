@@ -136,7 +136,7 @@ namespace TelemetryEngine
                     //Console.WriteLine("global#: " + globalCounter + ". #" + i + ": " + res);
                 }
             }
-            return list;
+            return list.OrderBy(x=>x);
         }
 
         //TODO: после тестов убрать
