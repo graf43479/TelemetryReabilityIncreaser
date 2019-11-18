@@ -105,13 +105,13 @@ namespace TelemetryEngine
             return processor.GetResult();
         }
 
-        public List<List<Coord>> GetMatrixDifference()
+        public List<MismatchesCoordList> GetMatrixDifference()
         {
-            List<List<Coord>> allMatrixesMismatches = new List<List<Coord>>();
+            List<MismatchesCoordList> allMatrixesMismatches = new List<MismatchesCoordList>();
             foreach (RawDataMatrix matrix in resultMatrixes)
             {
-                IEnumerable<Coord> coords = matrix.GetMismatches(mBase);
-                allMatrixesMismatches.Add(coords.ToList());
+                MismatchesCoordList coords = matrix.GetMismatches(mBase);
+                allMatrixesMismatches.Add(coords);
             }
             return allMatrixesMismatches;
         }

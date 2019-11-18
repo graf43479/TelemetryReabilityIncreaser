@@ -75,8 +75,8 @@ namespace DamageVisualizer
                 RawDataMatrix result = engine.PerformCombination(val.ToString());
                 UnitedFramesComponent comp = new UnitedFramesComponent(myCanvas, 10, 10, 10);
 
-                List<List<Coord>> allCoords = engine.GetMatrixDifference();
-                List<Coord> mainCoords = result.GetMismatches(engine.Etalon).ToList();
+                List<MismatchesCoordList> allCoords = engine.GetMatrixDifference();
+                MismatchesCoordList mainCoords = result.GetMismatches(engine.Etalon);
                 allCoords.Add(mainCoords);
                 comp.DrawData(allCoords);               
             }

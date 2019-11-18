@@ -25,35 +25,38 @@ namespace DamageVisualizer
             mainYOffset = offsetY ?? mainYOffset;
         }
 
-        public void DrawData(IEnumerable<List<Coord>> coords)
+        public void DrawData(IEnumerable<MismatchesCoordList> coords)
         {
             canvas.Children.Clear();            
-            int count = 0;
             int xOffset = 0;
             int yOffset = 0;
             int pixelSize = 10;
 
             int blockSizeX = 32 * pixelSize + mainXOffset;
-            foreach (List<Coord> mDif in coords)
+            foreach (MismatchesCoordList mDif in coords)
             {                
-                DrawCustomRectangle(mDif, new Coord(yOffset, xOffset));               
+                DrawCustomRectangle(mDif.Coords, new Coord(yOffset, xOffset), "some");               
 
                 if ((canvas.Width - xOffset-blockSizeX) < blockSizeX) //xOfFset
                 {
                     yOffset += 20 * pixelSize + mainYOffset;
                     xOffset = 0;
-                    count = 0;
                 }
                 else
                 {
                     xOffset += 32 * pixelSize + mainXOffset;
-                    ++count;
                 }
             }
         }
 
-          void DrawCustomRectangle(List<Coord> coords, Coord offset)
+          void DrawCustomRectangle(List<Coord> coords, Coord offset, string text)
         {
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = text;
+            textBlock.Foreground = new SolidColorBrush(Colors.Coral);
+            Canvas.SetLeft(textBlock, 0);
+            Canvas.SetTop(textBlock, 0);
+            canvas.Children.Add(textBlock);
 
             int i = 0;
             foreach (Coord coord in coords)

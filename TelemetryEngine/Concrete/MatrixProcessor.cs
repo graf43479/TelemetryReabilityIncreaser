@@ -26,7 +26,7 @@ namespace TelemetryEngine
             this.mBase = mBase;
             mW = mWeights;
             //матрицы ранжируются по убыванию достоверности 
-            this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).Count()).ToList();         
+            this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).k).ToList();         
            // this.matrixes = matrixes;
         }
 
@@ -93,7 +93,7 @@ namespace TelemetryEngine
                 }
             }
 
-            int k_tmp = matrix.GetMismatches(mBase).Count(); //CheckReliability(matrix);
+            int k_tmp = matrix.GetMismatches(mBase).k; //CheckReliability(matrix);
            // Console.WriteLine($">>>Текущая достоверность: {k_tmp }<<<");
             if (k == -1 || k_tmp < k)
             {
