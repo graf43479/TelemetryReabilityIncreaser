@@ -15,11 +15,8 @@
             <ListBox Name="ListBoxCombinations" Width="112" Margin="10,10,11,10" SelectionChanged="ListBoxCombinations_SelectionChanged"/>
         </DockPanel>
         <DockPanel Margin="0,0,0,0" Background="Violet" DockPanel.Dock="top" RenderTransformOrigin="0.5,0.5" Width="1057" Height="518">
-            <Grid Background="Beige" DockPanel.Dock="Top" Width="1053" Height="60">
-                <Image Name="img" Margin="-2,0,2,1" Width="968" Height="60" />
-            </Grid>
             <Grid Background="DarkCyan" Margin="0,1,0,0">
-                <Canvas Name="myCanvas" Width="1047" Height="447" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Canvas Name="myCanvas" Width="1047" Height="507" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
             </Grid>
         </DockPanel>
     </DockPanel>

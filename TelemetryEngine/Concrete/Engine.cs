@@ -105,7 +105,7 @@ namespace TelemetryEngine
             return processor.GetResult();
         }
 
-        public IEnumerable<List<Coord>> GetMatrixDifference()
+        public List<List<Coord>> GetMatrixDifference()
         {
             List<List<Coord>> allMatrixesMismatches = new List<List<Coord>>();
             foreach (RawDataMatrix matrix in resultMatrixes)
