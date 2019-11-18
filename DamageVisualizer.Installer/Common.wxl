@@ -2,7 +2,7 @@
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
   <String Id="Company">Vorontsov</String>
   
-  <String Id="ProductNameFolder">DamageVisualizer (32-bit)</String>
+  <String Id="ProductNameFolder">DamageVisualizer</String>
 
   <String Id="ProductName_x86">Damage Visualizer (32-bit)</String>
   <String Id="ProductName_x64">Damage Visualizer (64-bit)</String>

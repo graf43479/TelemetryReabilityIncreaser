@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!--Unique Id for platform -->
-  <?if $(var.Platform)=x64?>
+  <?if $(var.Platform)=x64 ?>
   <?define ProductCode="{9046347D-80CA-47AE-96CD-71B0B4A8608D}"?>
   <?else?>
   <?define ProductCode="{52DE81B9-9560-4036-8936-DBF3BB461993}"?>
@@ -51,7 +51,7 @@
     <!--Define components, shortcuts, files etc.. for installer-->
 		<Feature Id="ProductFeature" Title="DamageVisualizerApp" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
-      <!--<ComponentGroupRef Id="PublishedComponents" />-->
+      <ComponentGroupRef Id="PublishedComponents" />
 		</Feature>
 	</Product>
 
