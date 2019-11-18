@@ -27,7 +27,6 @@ namespace TelemetryEngine
             mW = mWeights;
             //матрицы ранжируются по убыванию достоверности 
             this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).k).ToList();         
-           // this.matrixes = matrixes;
         }
 
         //функция возвращает результирующее значение 5 элементов на основе весов
