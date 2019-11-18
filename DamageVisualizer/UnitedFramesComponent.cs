@@ -28,19 +28,19 @@ namespace DamageVisualizer
         public void DrawData(IEnumerable<MismatchesCoordList> coords)
         {
             canvas.Children.Clear();            
-            int xOffset = 0;
-            int yOffset = 0;
+            int xOffset = 10;
+            int yOffset = 20;
             int pixelSize = 10;
 
             int blockSizeX = 32 * pixelSize + mainXOffset;
             foreach (MismatchesCoordList mDif in coords)
             {                
-                DrawCustomRectangle(mDif.Coords, new Coord(yOffset, xOffset), "some");               
+                DrawCustomRectangle(mDif.Coords, new Coord(yOffset, xOffset), mDif.Name);               
 
                 if ((canvas.Width - xOffset-blockSizeX) < blockSizeX) //xOfFset
                 {
                     yOffset += 20 * pixelSize + mainYOffset;
-                    xOffset = 0;
+                    xOffset = 10;
                 }
                 else
                 {
@@ -49,19 +49,21 @@ namespace DamageVisualizer
             }
         }
 
-          void DrawCustomRectangle(List<Coord> coords, Coord offset, string text)
+        void DrawCustomRectangle(List<Coord> coords, Coord offset, string text)
         {
             TextBlock textBlock = new TextBlock();
             textBlock.Text = text;
             textBlock.Foreground = new SolidColorBrush(Colors.Coral);
-            Canvas.SetLeft(textBlock, 0);
-            Canvas.SetTop(textBlock, 0);
+            textBlock.HorizontalAlignment = HorizontalAlignment.Left;
+            textBlock.FontSize = 24;
+            Canvas.SetLeft(textBlock, offset.Y+pixelSize*32/2);
+            // Canvas.SetTop(textBlock, offset.X - pixelSize * 20 - mainYOffset-30);
+            Canvas.SetTop(textBlock, offset.X -32);
+
             canvas.Children.Add(textBlock);
 
-            int i = 0;
-            foreach (Coord coord in coords)
-            {
-                i++;
+          foreach (Coord coord in coords)
+          {
                 Rectangle r = new Rectangle
                 {
                     Height = pixelSize,
@@ -76,8 +78,28 @@ namespace DamageVisualizer
                 canvas.Children.Add(r);
                 Canvas.SetTop(r, coord.X * pixelSize + offset.X);
                 Canvas.SetLeft(r, coord.Y * pixelSize + offset.Y);
-            }
+          }
 
+            
+            
+            /*for (int i = 0; i < 32; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    Rectangle grid = new Rectangle
+                    {
+                        Height = pixelSize,
+                        Width = pixelSize,
+                        Stroke = new SolidColorBrush(Colors.Black),
+                        StrokeThickness = 1
+                    };
+
+                    canvas.Children.Add(grid);
+                    Canvas.SetTop(grid, j*pixelSize+offset.X);
+                    Canvas.SetLeft(grid, i * pixelSize + offset.Y);
+                }
+            }
+            */
            // Pen pen = new Pen(new SolidColorBrush(Color.FromRgb(200, 10, 20)), 2);
             Rectangle border = new Rectangle
             {

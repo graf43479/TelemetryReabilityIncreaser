@@ -9,7 +9,7 @@ namespace GUI
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main(string[] args) 
         {
             //Порядок действия гуя
             //1. Инициализировать класс 
