@@ -9,6 +9,7 @@
 /DamageVisualizer.Installer/bin
 /DamageVisualizer.Installer/obj
 /DamageVisualizer.Installer/Installs
+/DamageVisualizer.Installer/ComponentGenerated.wxs
 /GUI/bin
 /GUI/obj
 /packages/
