@@ -27,5 +27,28 @@ namespace TelemetryEngine
 
         public List<Coord> Coords => coords;
 
+        public override string ToString()
+        {
+            if (!String.IsNullOrEmpty(name))
+            {
+                char channel = name[1];
+                char intensity = name[3];
+
+                //если это итоговая матрица (блок данных)
+                if (channel == '0' && intensity == '0')
+                {
+                    return String.Format($"Результат применения алгоритма. N={k}");
+                }
+                else
+                { 
+                    return String.Format($"Канал: {channel}. Уровень помех: {intensity}. N={k}" );
+                }
+
+
+            }
+            return "";
+            //return 
+        }
+
     }
 }

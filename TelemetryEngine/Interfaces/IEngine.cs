@@ -6,7 +6,7 @@ namespace TelemetryEngine.Interfaces
 {
     public interface IEngine
     {
-        IEnumerable<string> GetFilteredCombinations();
+        IEnumerable<Items> GetFilteredCombinations();
         void InitializeMatrixes();
         RawDataMatrix PerformCombination(string testCase);
     }

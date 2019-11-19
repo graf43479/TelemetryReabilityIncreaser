@@ -49,7 +49,12 @@ namespace DamageVisualizer
         private void BtnCalc_Click(object sender, RoutedEventArgs e)
         {
             engine = new Engine(path);
-            ListBoxCombinations.ItemsSource = engine.GetFilteredCombinations();
+            //ListBoxCombinations.ItemsSource = engine.GetFilteredCombinations().Select(x=>x.Name);            
+            DataGridCombinations.ItemsSource = engine.GetFilteredCombinations();
+            DataGridCombinations.Columns[0].Header = "№";
+            DataGridCombinations.Columns[1].Header = "Каналы";
+            DataGridCombinations.Columns[0].CanUserResize = false;
+            DataGridCombinations.Columns[1].CanUserResize = false;
         }
 
         /// <summary>
@@ -66,9 +71,9 @@ namespace DamageVisualizer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ListBoxCombinations_SelectionChanged(object sender, RoutedEventArgs e)
+        private void DataGridCombinations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var val = ListBoxCombinations.SelectedItem;
+            var val = (DataGridCombinations.SelectedItem as Items).Name;
             if (engine != null & val != null)
             {
                 RawDataMatrix result = engine.PerformCombination(val.ToString());
@@ -77,9 +82,22 @@ namespace DamageVisualizer
                 List<MismatchesCoordList> allCoords = engine.GetMatrixDifference();
                 MismatchesCoordList mainCoords = result.GetMismatches(engine.Etalon);
                 allCoords.Add(mainCoords);
-                comp.DrawData(allCoords);               
+                comp.DrawData(allCoords);
             }
         }
-        
+
+        private void DataGridCombinations_MouseMove(object sender, MouseEventArgs e)
+        {
+            //TODO: Подсветка подсказки
+            /*
+            DataGrid dt = sender as DataGrid;
+            //if (dt.CurrentCell != null)
+            if(e.Source!=null)
+            {
+                dgTooltip.Content = "Новые данные";
+            }
+            var val = (DataGridCombinations.SelectedItem as Items).Name;
+            */
+        }
     }
 }

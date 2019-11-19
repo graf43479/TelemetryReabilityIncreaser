@@ -7,15 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="610" Width="1198">
     <DockPanel>
-        <DockPanel Margin="0,0,0,0" Background="Aqua" Width="1194" DockPanel.Dock="Top" Height="66">
+        <DockPanel Margin="0,0,0,0" Width="1199" DockPanel.Dock="Top" Height="66" Background="#FFECE4DC">
             <Button Name="BtnGenerate" Height="35" Margin="10,10,10,10" Width="220" Content="Генерировать исходные данные" Click="BtnGenerate_Click" />
             <Button Name="BtnCalc" Height="35" Content="Рассчет" Margin="0,10,10,10" Width="149" Click="BtnCalc_Click" HorizontalAlignment="Left" ></Button>
         </DockPanel>
-        <DockPanel Margin="0,0,0,0" Background="BurlyWood" DockPanel.Dock="Left" Height="528">
-            <ListBox Name="ListBoxCombinations" Width="112" Margin="10,10,11,10" SelectionChanged="ListBoxCombinations_SelectionChanged"/>
+        <DockPanel Margin="0,0,0,0"  DockPanel.Dock="Left" Height="528" Background="#FFC4DCD6">
+            <DataGrid Name="DataGridCombinations" Background="Azure" Margin="10,5,8,15" Width="111" SelectionChanged="DataGridCombinations_SelectionChanged" HorizontalGridLinesBrush="#FFCFCACA" VerticalGridLinesBrush="#FFCFCACA" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" MouseMove="DataGridCombinations_MouseMove" Height="480" VerticalAlignment="Top">
+                <DataGrid.ToolTip>
+                    <ToolTip Name="dgTooltip" AutomationProperties.IsColumnHeader="True">
+                        Каждый порядковый номер цифры - номер канала, а значения - интенсивность помех (max 6)
+                    </ToolTip>
+                </DataGrid.ToolTip>
+            </DataGrid>
         </DockPanel>
-        <DockPanel Margin="0,0,0,0" Background="Violet" DockPanel.Dock="top" RenderTransformOrigin="0.5,0.5" Width="1057" Height="518">
-            <Grid Background="White" Margin="0,1,0,0">
+        <DockPanel Margin="0,0,0,0" DockPanel.Dock="top" Width="1057" Height="518" Background="#FFF0EBE7" >
+            <Grid Margin="0,0,0,0" Height="508">
                 <Canvas Name="myCanvas" Width="1047" Height="507" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
             </Grid>
         </DockPanel>

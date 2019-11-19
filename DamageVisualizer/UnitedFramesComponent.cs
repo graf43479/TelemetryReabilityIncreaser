@@ -35,7 +35,7 @@ namespace DamageVisualizer
             int blockSizeX = 32 * pixelSize + mainXOffset;
             foreach (MismatchesCoordList mDif in coords)
             {                
-                DrawCustomRectangle(mDif.Coords, new Coord(yOffset, xOffset), mDif.Name);               
+                DrawCustomRectangle(mDif.Coords, new Coord(yOffset, xOffset), mDif.ToString());               
 
                 if ((canvas.Width - xOffset-blockSizeX) < blockSizeX) //xOfFset
                 {
@@ -53,64 +53,53 @@ namespace DamageVisualizer
         {
             TextBlock textBlock = new TextBlock();
             textBlock.Text = text;
-            textBlock.Foreground = new SolidColorBrush(Colors.Coral);
+            textBlock.Foreground = new SolidColorBrush(Colors.DarkCyan);
             textBlock.HorizontalAlignment = HorizontalAlignment.Left;
-            textBlock.FontSize = 24;
-            Canvas.SetLeft(textBlock, offset.Y+pixelSize*32/2);
-            // Canvas.SetTop(textBlock, offset.X - pixelSize * 20 - mainYOffset-30);
-            Canvas.SetTop(textBlock, offset.X -32);
+            textBlock.FontSize = 16;
+            //Canvas.SetLeft(textBlock, offset.Y+pixelSize*32/2);
+            Canvas.SetLeft(textBlock, offset.Y);
+            Canvas.SetTop(textBlock, offset.X -20);
 
             canvas.Children.Add(textBlock);
 
-          foreach (Coord coord in coords)
-          {
-                Rectangle r = new Rectangle
-                {
-                    Height = pixelSize,
-                    Width = pixelSize,
-                    Fill = new SolidColorBrush(Colors.Coral),
-                    Stroke = new SolidColorBrush(Colors.Black),
-                    StrokeThickness = 1
-                };
+            //закраска области матрицы
+            DrawSimpleRectangle(offset, pixelSize * 32, pixelSize * 20, Colors.DarkCyan, Colors.Orange);           
 
-                r.SetValue(Grid.RowProperty, coord.X + offset.X);
-                r.SetValue(Grid.ColumnProperty, coord.Y + offset.Y);
-                canvas.Children.Add(r);
-                Canvas.SetTop(r, coord.X * pixelSize + offset.X);
-                Canvas.SetLeft(r, coord.Y * pixelSize + offset.Y);
-          }
-
+            //закраска поврежденных блоков
+            foreach (Coord coord in coords)
+            {
+                Coord tmpCoord = new Coord(coord.X * pixelSize + offset.X, coord.Y * pixelSize + offset.Y);
+                DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, Colors.Coral, Colors.Black);                               
+            }
             
-            
-            /*for (int i = 0; i < 32; i++)
+            //закраска сетки
+           /* for (int i = 0; i < 32; i++)
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    Rectangle grid = new Rectangle
-                    {
-                        Height = pixelSize,
-                        Width = pixelSize,
-                        Stroke = new SolidColorBrush(Colors.Black),
-                        StrokeThickness = 1
-                    };
-
-                    canvas.Children.Add(grid);
-                    Canvas.SetTop(grid, j*pixelSize+offset.X);
-                    Canvas.SetLeft(grid, i * pixelSize + offset.Y);
+                    Coord tmpCoord = new Coord(j * pixelSize + offset.X, i * pixelSize + offset.Y);
+                    DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Black);                   
                 }
-            }
-            */
-           // Pen pen = new Pen(new SolidColorBrush(Color.FromRgb(200, 10, 20)), 2);
+            }*/
+
+            //закраска всей области c отступами 
+            DrawSimpleRectangle(new Coord(offset.X-1, offset.Y-1), pixelSize * 32+2, pixelSize * 20+2, null, Colors.Orange);
+        }
+
+        void DrawSimpleRectangle(Coord coord, int width, int height, Color? fillColor, Color? borderColor)
+        {
             Rectangle border = new Rectangle
             {
-                Height = pixelSize * 20,
-                Width = pixelSize * 32,
-                Stroke = new SolidColorBrush(Colors.Orange)
+                Height = height,
+                Width = width,
+                Stroke = borderColor == null ? null : new SolidColorBrush((Color)borderColor),                
+                StrokeThickness = 1,
+                Fill = fillColor == null ? null : new SolidColorBrush((Color)fillColor),
             };
 
             canvas.Children.Add(border);
-            Canvas.SetTop(border, offset.X);
-            Canvas.SetLeft(border, offset.Y);
+            Canvas.SetTop(border, coord.X);
+            Canvas.SetLeft(border, coord.Y);
         }
     }
 }

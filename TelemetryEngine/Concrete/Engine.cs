@@ -122,21 +122,31 @@ namespace TelemetryEngine
         /// Возвращает набор уникальных комбинаций для заданного числа каналов и интенсивности помех
         /// </summary>       
         /// <returns></returns>
-        public IEnumerable<string> GetFilteredCombinations()
+        public IEnumerable<Items> GetFilteredCombinations()
         {
-            List<string> list = new List<string>();
+            List<Items> list = new List<Items>();
             int combinations = (int)Math.Pow(intensityCount, channelCount);
+            
             for (int i = 0; i < combinations - 1; i++)
             {
                 Func<int, int, int, char[]> func = fromDeci;
                 string res = GetCaseFiltered(func(intensityCount, channelCount, i));
                 if (res != null)
                 {
-                    list.Add(res);
+                    list.Add(new Items{Id=0, Name = res } );
+                    
                     //Console.WriteLine("global#: " + globalCounter + ". #" + i + ": " + res);
                 }
             }
-            return list.OrderBy(x=>x);
+
+            int counter = 1;
+            list = list.OrderBy(x => x.Name).ToList();
+            foreach (Items item in list)
+            {
+                item.Id = counter;
+                counter++;
+            }
+            return list;
         }
 
         //TODO: после тестов убрать
@@ -207,6 +217,11 @@ namespace TelemetryEngine
         }        
     }
 
+    public class Items
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
     //public class MismatchCoordList
     //{
     //    List<Coord>
