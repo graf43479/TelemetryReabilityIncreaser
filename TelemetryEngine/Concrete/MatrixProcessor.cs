@@ -18,7 +18,8 @@ namespace TelemetryEngine
         private IEnumerable<RawDataMatrix> matrixes;
         private Matrix mW;
         private Matrix mBase;
-
+        private int nm; //для 166-ой комбинации
+        
         private RawDataMatrix mResult;
 
         public MatrixProcessor(IEnumerable<RawDataMatrix> matrixes, Matrix mWeights, Matrix mBase)
@@ -27,6 +28,33 @@ namespace TelemetryEngine
             mW = mWeights;
             //матрицы ранжируются по убыванию достоверности 
             this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).k).ToList();         
+        }
+
+        public int Na => nm;
+        public int Nm => matrixes.Min(x => x.GetMismatches(mBase).k);
+        public int Ns => mResult.GetMismatches(mBase).k;
+
+        public string GetGamma()
+        {
+            int gs = ((new int[] { Na, Nm }).Min() - Ns)*100/((new int[] { Na, Nm }).Min()-Ns+24);
+            const int gamma = 15;
+
+            int E;
+
+            if (gs >= gamma)
+            {
+                E=1;
+            }
+            else if (gs <= -gamma)
+            {
+                E=-1;
+            }
+            else
+            {
+                E = 0;
+            }
+
+            return $"Na={Na}. Nm = {Nm}. Ns = {Ns}. E={E}";
         }
 
         //функция возвращает результирующее значение 5 элементов на основе весов
@@ -91,12 +119,19 @@ namespace TelemetryEngine
                     matrix[i, j] = GetResultCell(cur_cell, w);                    
                 }
             }
+                                   
 
             int k_tmp = matrix.GetMismatches(mBase).k; //CheckReliability(matrix);
+            if (w == 0)
+            {
+                nm = k_tmp;
+                Console.WriteLine("NM:===>" + nm);
+            }
            // Console.WriteLine($">>>Текущая достоверность: {k_tmp }<<<");
             if (k == -1 || k_tmp < k)
             {
                 k = k_tmp;
+                Console.WriteLine("K:====>" + k);
                 mResult =matrix;
             }        
     }
@@ -106,8 +141,9 @@ namespace TelemetryEngine
         {
             int counter = 0;
             for (int i = 0; i < mW.GetXSize(); i++)
+            //for (int i = mW.GetXSize()-1; i > 0; i--)
             {
-                 counter++;
+                counter++;
                 CalculateReliability(i);
                // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");                
                 if (k == 0)

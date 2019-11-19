@@ -81,6 +81,7 @@ namespace DamageVisualizer
 
                 List<MismatchesCoordList> allCoords = engine.GetMatrixDifference();
                 MismatchesCoordList mainCoords = result.GetMismatches(engine.Etalon);
+                mainCoords.Gamma= engine.Gamma;
                 allCoords.Add(mainCoords);
                 comp.DrawData(allCoords);
             }

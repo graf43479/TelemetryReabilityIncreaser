@@ -20,6 +20,7 @@ namespace TelemetryEngine
         private ICollection<RawDataMatrix> resultMatrixes;
         private Matrix mBase;
         private Matrix mW;
+        public string Gamma { get; set; }
 
         public Engine(string path)
         {
@@ -102,7 +103,9 @@ namespace TelemetryEngine
 
             //начало основного алгоритма
             MatrixProcessor processor = new MatrixProcessor(resultMatrixes, mW, mBase);
-            return processor.GetResult();
+            RawDataMatrix result = processor.GetResult();
+            Gamma = processor.GetGamma();
+            return result;
         }
 
         public List<MismatchesCoordList> GetMatrixDifference()

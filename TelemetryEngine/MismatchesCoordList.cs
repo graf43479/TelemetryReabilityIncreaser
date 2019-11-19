@@ -8,6 +8,7 @@ namespace TelemetryEngine
     {
         private List<Coord> coords;
         private readonly string name;
+        public string Gamma { get; set; }
 
         public MismatchesCoordList(string name, List<Coord> coords)
         {
@@ -37,7 +38,7 @@ namespace TelemetryEngine
                 //если это итоговая матрица (блок данных)
                 if (channel == '0' && intensity == '0')
                 {
-                    return String.Format($"Результат применения алгоритма. N={k}");
+                    return String.Format($"Обобщенные данные. N={k}. {Gamma}");
                 }
                 else
                 { 

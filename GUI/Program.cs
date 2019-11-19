@@ -23,9 +23,10 @@ namespace GUI
             await MatrixDataInitializer.GenerateAsync();
 
             Engine engine = new Engine(path);
-            IEnumerable<string> combinations = engine.GetFilteredCombinations();
+            IEnumerable<Items> combinations = engine.GetFilteredCombinations();
             //выбор необходимой            
-            RawDataMatrix result = engine.PerformCombination(combinations.Skip(50).First());
+            RawDataMatrix result = engine.PerformCombination(combinations.Skip(50).First().Name);
+            
             Console.WriteLine(new string('-', 50));
             Console.WriteLine(result);
         }

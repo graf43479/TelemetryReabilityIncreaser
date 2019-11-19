@@ -55,7 +55,7 @@ namespace DamageVisualizer
             textBlock.Text = text;
             textBlock.Foreground = new SolidColorBrush(Colors.DarkCyan);
             textBlock.HorizontalAlignment = HorizontalAlignment.Left;
-            textBlock.FontSize = 16;
+            textBlock.FontSize = 10;
             //Canvas.SetLeft(textBlock, offset.Y+pixelSize*32/2);
             Canvas.SetLeft(textBlock, offset.Y);
             Canvas.SetTop(textBlock, offset.X -20);
@@ -63,7 +63,7 @@ namespace DamageVisualizer
             canvas.Children.Add(textBlock);
 
             //закраска области матрицы
-            DrawSimpleRectangle(offset, pixelSize * 32, pixelSize * 20, Colors.DarkCyan, Colors.Orange);           
+            DrawSimpleRectangle(offset, pixelSize * 32, pixelSize * 20, Colors.White, Colors.Orange);           
 
             //закраска поврежденных блоков
             foreach (Coord coord in coords)
@@ -73,17 +73,17 @@ namespace DamageVisualizer
             }
             
             //закраска сетки
-           /* for (int i = 0; i < 32; i++)
-            {
-                for (int j = 0; j < 20; j++)
-                {
-                    Coord tmpCoord = new Coord(j * pixelSize + offset.X, i * pixelSize + offset.Y);
-                    DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Black);                   
-                }
-            }*/
+            //for (int i = 0; i < 32; i++)
+            //{
+            //    for (int j = 0; j < 20; j++)
+            //    {
+            //        Coord tmpCoord = new Coord(j * pixelSize + offset.X, i * pixelSize + offset.Y);
+            //        DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Gray);                   
+            //    }
+            //}
 
             //закраска всей области c отступами 
-            DrawSimpleRectangle(new Coord(offset.X-1, offset.Y-1), pixelSize * 32+2, pixelSize * 20+2, null, Colors.Orange);
+            DrawSimpleRectangle(new Coord(offset.X-1, offset.Y-1), pixelSize * 32+2, pixelSize * 20+2, null, Colors.Black);
         }
 
         void DrawSimpleRectangle(Coord coord, int width, int height, Color? fillColor, Color? borderColor)
