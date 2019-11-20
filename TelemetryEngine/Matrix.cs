@@ -89,7 +89,7 @@ namespace TelemetryEngine
         }
 
         /// <summary>
-        /// количество столбцов (N)
+        /// количество строк (N)
         /// </summary>        
         public int GetXSize()
         {
@@ -98,7 +98,7 @@ namespace TelemetryEngine
 
 
         /// <summary>
-        /// количество строк (M)
+        /// количество столбцов (M)
         /// </summary> 
         public int GetYSize() 
         {

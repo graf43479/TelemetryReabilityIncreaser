@@ -55,7 +55,7 @@ namespace DamageVisualizer
             textBlock.Text = text;
             textBlock.Foreground = new SolidColorBrush(Colors.DarkCyan);
             textBlock.HorizontalAlignment = HorizontalAlignment.Left;
-            textBlock.FontSize = 10;
+            textBlock.FontSize = 14;
             //Canvas.SetLeft(textBlock, offset.Y+pixelSize*32/2);
             Canvas.SetLeft(textBlock, offset.Y);
             Canvas.SetTop(textBlock, offset.X -20);
@@ -71,16 +71,16 @@ namespace DamageVisualizer
                 Coord tmpCoord = new Coord(coord.X * pixelSize + offset.X, coord.Y * pixelSize + offset.Y);
                 DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, Colors.Coral, Colors.Black);                               
             }
-            
+
             //закраска сетки
-            //for (int i = 0; i < 32; i++)
-            //{
-            //    for (int j = 0; j < 20; j++)
-            //    {
-            //        Coord tmpCoord = new Coord(j * pixelSize + offset.X, i * pixelSize + offset.Y);
-            //        DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Gray);                   
-            //    }
-            //}
+            for (int i = 0; i < 32; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    Coord tmpCoord = new Coord(j * pixelSize + offset.X, i * pixelSize + offset.Y);
+                    DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Gray);
+                }
+            }
 
             //закраска всей области c отступами 
             DrawSimpleRectangle(new Coord(offset.X-1, offset.Y-1), pixelSize * 32+2, pixelSize * 20+2, null, Colors.Black);

@@ -28,12 +28,13 @@ namespace TelemetryEngine
 {
     public class MatrixProcessor : IMatrixProcessor
     {           
-        private int k = -1;              //текущая достоверность
+        private int k = -1;              //Итерация достоерности (1-166)
+        private int N = -1;                //Текущая достоверность
 
         private IEnumerable<RawDataMatrix> matrixes;
         private Matrix mW;
         private Matrix mBase;
-        private int nm; //для 166-ой комбинации
+        private int nm=1000; //для 166-ой комбинации
         
         private RawDataMatrix mResult;
 
@@ -42,12 +43,12 @@ namespace TelemetryEngine
             this.mBase = mBase;
             mW = mWeights;
             //матрицы ранжируются по убыванию достоверности 
-            this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).k).ToList();         
+            this.matrixes = matrixes.OrderByDescending(x=>x.GetMismatches(mBase).N).ToList();         
         }
 
-        public int Na => nm;
-        public int Nm => matrixes.Min(x => x.GetMismatches(mBase).k);
-        public int Ns => mResult.GetMismatches(mBase).k;
+        public int Nm => nm;
+        public int Na => matrixes.Min(x => x.GetMismatches(mBase).N);
+        public int Ns => mResult.GetMismatches(mBase).N;
 
         /// <summary>
         /// Оценка эффективности алгоритма
@@ -55,7 +56,8 @@ namespace TelemetryEngine
         /// <returns></returns>
         public string GetGamma()
         {
-            int gs = ((new int[] { Na, Nm }).Min() - Ns)*100/((new int[] { Na, Nm }).Min()-Ns+24);
+            //nm
+            int gs = ((new int[] { Na, Nm }).Min() - Ns)*100/((new int[] { Na, Nm, Ns }).Min()+24);
             const int gamma = 15;
 
             int E;
@@ -73,7 +75,7 @@ namespace TelemetryEngine
                 E = 0;
             }
 
-            return $"Na={Na}. Nm = {Nm}. Ns = {Ns}. E={E}";
+            return $"Na={Na}. Nm = {Nm}. Ns = {Ns}. k={k}. gs={gs}. E={E}";
         }
 
         /// <summary>
@@ -87,6 +89,7 @@ namespace TelemetryEngine
             int[] vals = new int[4]; //массив возможных значений            
             for (int i = 0; i < arr.Length; i++)
             {
+                //if(w=)
                 int wVal = mW[w, i];
                 switch (arr[i])
                 {
@@ -147,17 +150,23 @@ namespace TelemetryEngine
                 }
             }                                   
 
-            int k_tmp = matrix.GetMismatches(mBase).k; //CheckReliability(matrix);
-            if (w == 0)
+            int N_tmp = matrix.GetMismatches(mBase).N; //CheckReliability(matrix);
+            if (N_tmp < 52)
             {
-                nm = k_tmp;
+                int p = N_tmp; 
+            }
+            
+            if (w == mW.GetXSize()-1)
+            {
+                nm = N_tmp;
                 Console.WriteLine("NM:===>" + nm);
             }
-           // Console.WriteLine($">>>Текущая достоверность: {k_tmp }<<<");
-            if (k == -1 || k_tmp < k)
+           // Console.WriteLine($">>>Текущая достоверность: {N_tmp }<<<");
+            if (N == -1 || N_tmp < N)
             {
-                k = k_tmp;
-                Console.WriteLine("K:====>" + k);
+                N = N_tmp;
+                k = w;
+                Console.WriteLine($"K:====>{k}. N={N}");
                 mResult =matrix;
             }        
     }
@@ -169,13 +178,13 @@ namespace TelemetryEngine
         public RawDataMatrix GetResult()
         {
             int counter = 0;
-            for (int i = 0; i < mW.GetXSize(); i++)
-            //for (int i = mW.GetXSize()-1; i > 0; i--)
+           // for (int i = 0; i < mW.GetXSize(); i++)
+            for (int i = mW.GetXSize()-1; i >= 0; i--)
             {
                 counter++;
                 CalculateReliability(i);
-               // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {k}");                
-                if (k == 0)
+               // Console.WriteLine($"Итерация: {counter}. Макс. достоверность: {N}");                
+                if (N == 0)
                     break;
             }                      
             return mResult;

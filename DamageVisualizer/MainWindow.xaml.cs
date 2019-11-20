@@ -89,23 +89,31 @@ namespace DamageVisualizer
 
         private void DataGridCombinations_MouseMove(object sender, MouseEventArgs e)
         {
-            HitTestResult hitTestResult = VisualTreeHelper.HitTest(DataGridCombinations, e.GetPosition(DataGridCombinations));
-            DataGridRow dataGridRow = hitTestResult.VisualHit.GetParentOfType<DataGridRow>();
-            if (dataGridRow != null)
+            try
             {
-                int index = dataGridRow.GetIndex();
-                string combination = ((Items)DataGridCombinations.Items[index]).Name;
-                int len = combination.Length;
-                string message = "";
-                for (int i = 1; i <= len; i++)
+                HitTestResult hitTestResult = VisualTreeHelper.HitTest(DataGridCombinations, e.GetPosition(DataGridCombinations));
+                DataGridRow dataGridRow = hitTestResult.VisualHit.GetParentOfType<DataGridRow>();
+                if (dataGridRow != null)
                 {
-                    char ch = combination[i - 1];
-                    string tmp = $"Канал №{i}. Интенсивность помех: {ch}\n";
-                    message += tmp;
+                    int index = dataGridRow.GetIndex();
+                    string combination = ((Items)DataGridCombinations.Items[index]).Name;
+                    int len = combination.Length;
+                    string message = "";
+                    for (int i = 1; i <= len; i++)
+                    {
+                        char ch = combination[i - 1];
+                        string tmp = $"Канал №{i}. Интенсивность помех: {ch}\n";
+                        message += tmp;
+                    }
+                    dgTooltip.Content = message.Substring(0, message.Length - 1);
                 }
-                dgTooltip.Content = message.Substring(0, message.Length-1);
-            }           
-        }
+
+            }
+            catch (Exception)
+            {
+
+            }
+                    }
     }
 
     public static class DataExtensions

@@ -25,8 +25,8 @@ namespace GUI
             Engine engine = new Engine(path);
             IEnumerable<Items> combinations = engine.GetFilteredCombinations();
             //выбор необходимой            
-            RawDataMatrix result = engine.PerformCombination(combinations.Skip(50).First().Name);
-            
+            // RawDataMatrix result = engine.PerformCombination(combinations.Skip(50).First().Name);
+            RawDataMatrix result = engine.PerformCombination("16666");
             Console.WriteLine(new string('-', 50));
             Console.WriteLine(result);
         }
