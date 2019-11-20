@@ -1,4 +1,17 @@
-﻿using System;
+﻿//Класс выполняющий оснонвые задачи по комбинациям ВХД
+
+// ---------------------------------------------------------------------------
+// Авторское право © ООО "%CompanyName". Авторские права защищены.
+// Copyright. JSC «%CompanyName» 2016. All rights reserved
+// Компания: %CompanyName
+// Подразделение: %Department
+// Author: Oleg Vorontsov
+// Description: Класс предназначен для анализа исходных данных, отображения возможных комбинаций каналов и интенсивностей помех,
+//              расчета выбранной пользователем комбинации  и предоставления результирующего блока данных с сопутствующей информацией (gamma)  
+// Rational: Упрощение представления управлением комбинаций исходных данных   
+// ---------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +20,7 @@ using TelemetryEngine.Interfaces;
 namespace TelemetryEngine 
 {
     /// <summary>
-    /// Класс должен подгружать исходные 30(?) матриц и формировать таблицу возможных комбинаций 
+    /// Класс должен подгружать исходные 30 матриц и формировать таблицу возможных комбинаций 
     /// Далее пользователь должен выбирать комбинации и инициировать работу движка получения обобщенного массива данных    
     /// </summary>
     public class Engine : IEngine
@@ -18,10 +31,20 @@ namespace TelemetryEngine
 
         private List<RawDataMatrix> matrixes;
         private ICollection<RawDataMatrix> resultMatrixes;
+        
+        //Эталонная матрица
         private Matrix mBase;
+
+        //матрица весов
         private Matrix mW;
+
+        //Оценка эффективности алгоритма
         public string Gamma { get; set; }
 
+        /// <summary>
+        /// Конструктор. Инициализирует данные из json в каталоге path
+        /// </summary>
+        /// <param name="path">путь к json-файлам</param>
         public Engine(string path)
         {
             this.path = path;
@@ -30,6 +53,9 @@ namespace TelemetryEngine
             InitializeMatrixes();
         }
 
+        /// <summary>
+        /// Инициализирует 30/24/18 матриц (в зависимости от количества каналов)
+        /// </summary>
         public void InitializeMatrixes()
         {
             matrixes = new List<RawDataMatrix>();
@@ -82,6 +108,11 @@ namespace TelemetryEngine
 
         public Matrix Etalon => mBase;
 
+        /// <summary>
+        /// Расчет выбранной комбинации каналов/помех
+        /// </summary>
+        /// <param name="testCase"></param>
+        /// <returns>Результирующий блок данных</returns>
         public RawDataMatrix PerformCombination(string testCase)
         {
             //Console.WriteLine("Тестовый вариант:" + testCase);
@@ -108,6 +139,10 @@ namespace TelemetryEngine
             return result;
         }
 
+        /// <summary>
+        /// Возвращает информацию по всем несоответствиям эталонной матрице
+        /// </summary>
+        /// <returns></returns>
         public List<MismatchesCoordList> GetMatrixDifference()
         {
             List<MismatchesCoordList> allMatrixesMismatches = new List<MismatchesCoordList>();
@@ -220,13 +255,13 @@ namespace TelemetryEngine
         }        
     }
 
+    /// <summary>
+    /// Класс для отображения комбинации и её порядкового номера
+    /// </summary>
     public class Items
     {
         public int Id { get; set; }
         public string Name { get; set; }
     }
-    //public class MismatchCoordList
-    //{
-    //    List<Coord>
-    //}
+   
 }

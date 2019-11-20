@@ -1,4 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿//Класс выполняющий основные вычисления для получения итогового блока данных
+
+// ---------------------------------------------------------------------------
+// Авторское право © ООО "%CompanyName". Авторские права защищены.
+// Copyright. JSC «%CompanyName» 2016. All rights reserved
+// Компания: %CompanyName
+// Подразделение: %Department
+// Author: Oleg Vorontsov
+// Description: Класс получает данные для выбранной комбинации ВХД, а далее осуществляет перебор на основе весовых коэффициентов.
+//              В итоге получается блок данных с минимальным количеством поврежденных данных. В самом худшем случае количество ошибок 
+//              равно минимальному одного из исходных блоков данных (автовыбор)
+//              Также осуществляется показатель эффективности алгоритма GetGamma и E
+// Rational: Фрагментация основных расчетов для повышения наглядности   
+// ---------------------------------------------------------------------------
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Threading;
@@ -34,6 +49,10 @@ namespace TelemetryEngine
         public int Nm => matrixes.Min(x => x.GetMismatches(mBase).k);
         public int Ns => mResult.GetMismatches(mBase).k;
 
+        /// <summary>
+        /// Оценка эффективности алгоритма
+        /// </summary>
+        /// <returns></returns>
         public string GetGamma()
         {
             int gs = ((new int[] { Na, Nm }).Min() - Ns)*100/((new int[] { Na, Nm }).Min()-Ns+24);
@@ -57,7 +76,12 @@ namespace TelemetryEngine
             return $"Na={Na}. Nm = {Nm}. Ns = {Ns}. E={E}";
         }
 
-        //функция возвращает результирующее значение 5 элементов на основе весов
+        /// <summary>
+        /// функция возвращает результирующее значение 5 элементов на основе весов
+        /// </summary>
+        /// <param name="arr">Массив значений [i,j] элемента кажого блока данных. Возможные значения: 0,1,2,3</param>
+        /// <param name="w">порядковый номер кортежа весовых коэффициентов</param>
+        /// <returns></returns>
         private int GetResultCell(int[] arr, int w)
         {
             int[] vals = new int[4]; //массив возможных значений            
@@ -93,7 +117,10 @@ namespace TelemetryEngine
             return -1;
         }
 
-        //Основная функция рассчета достоерности. W - текущий весовой коэффициент
+        /// <summary>
+        /// Основная функция рассчета достоверности. w - текущий весовой коэффициент
+        /// </summary>
+        /// <param name="w"></param>
         private void CalculateReliability(int w)
         {
             RawDataMatrix matrix = new RawDataMatrix(mBase.GetXSize(), mBase.GetYSize());
@@ -118,8 +145,7 @@ namespace TelemetryEngine
                     }                   
                     matrix[i, j] = GetResultCell(cur_cell, w);                    
                 }
-            }
-                                   
+            }                                   
 
             int k_tmp = matrix.GetMismatches(mBase).k; //CheckReliability(matrix);
             if (w == 0)
@@ -135,8 +161,11 @@ namespace TelemetryEngine
                 mResult =matrix;
             }        
     }
-
-        //начало расчета
+        
+        /// <summary>
+        /// Функция просчитывает для всех кортежей матрицы весов наиболее достоверный вариант 
+        /// </summary>
+        /// <returns>Самый достоверный вариант блока данных</returns>
         public RawDataMatrix GetResult()
         {
             int counter = 0;
