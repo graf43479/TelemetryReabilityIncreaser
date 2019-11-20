@@ -1,4 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿//Класс для генерации исходных данных 
+
+// ---------------------------------------------------------------------------
+// Авторское право © ООО "%CompanyName". Авторские права защищены.
+// Copyright. JSC «%CompanyName» 2016. All rights reserved
+// Компания: %CompanyName
+// Подразделение: %Department
+// Author: Oleg Vorontsov
+// Description: Настоящий класс генерирует JSON файлы для блоков данных, матриц весовых коэффициентов и эталонной матрицы
+//              Количество базовых блоков данных - 30, матрицы весовых коэффициентов - 3, эталонных матриц - 1.
+//              Формат записи:
+//                        для базового блока данных: m1_6.json (1-номер канала, 6 - интенсивность помех)
+//                        для весовых коэффициентов: mW5.json (5 - количество каналов)
+//                        для эталонного блока данных: mBase.json
+//               Максимальное количество каналов - 5, минимальное - 3. Показатель помеховой обстановки варьируется от 1 до 6 (максимум)
+//               Количество каналов может варьироваться (3-5), количество показатель помеховой обстановки - нет (1-6)
+// Rational: Убирает необходимость формировать входные данные в самом коде
+// ---------------------------------------------------------------------------
+
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -7,10 +26,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TelemetryEngine
-{
+{    
     public static class MatrixDataInitializer
     {
+        //путь к директории, куда будут генерироваться json-файлы
         private readonly static string jsonPath;
+
+        //JsonData - путь по умолчанию. 
         static MatrixDataInitializer()
         {
             jsonPath = Directory.GetCurrentDirectory() + "/JsonData";
@@ -20,6 +42,10 @@ namespace TelemetryEngine
             }
         }
 
+        /// <summary>
+        /// Генерация всех json-объектов
+        /// </summary>
+        /// <returns></returns>
         public static async Task GenerateAsync()
         {
             for (int i = 1; i <= 5; i++)
@@ -35,6 +61,11 @@ namespace TelemetryEngine
 
         }
 
+        /// <summary>
+        /// Берет имя файла и создает одноименный файл
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private static async Task DoJsonByReflectionAsync(string name)
         {
             Type myType = typeof(MatrixDataInitializer);
@@ -50,13 +81,11 @@ namespace TelemetryEngine
             if (!Directory.Exists(jsonPath))
             {
                 Directory.CreateDirectory(jsonPath);
-                //Directory.Delete(subPath);
             }
 
             Console.WriteLine($"Начало сериализации матрицы: {name}");
             try
             {
-
                 string fullName = jsonPath + "/" + name + ".json";
                 byte[] bytes = Encoding.Default.GetBytes(JsonConvert.SerializeObject(array));
                 await File.WriteAllBytesAsync(fullName, bytes);
@@ -68,6 +97,7 @@ namespace TelemetryEngine
             }
         }
 
+        //Эталонный блок данных
         private static readonly int[,] mBase =
          {
            {0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3},
@@ -214,7 +244,7 @@ namespace TelemetryEngine
         };
         */
         //===========================================================================
-        //Матрица весовых коэффициентов 
+        //Матрицы весовых коэффициентов 
         private static readonly int[,] mW3 =
          {
             {70, 80, 82},
