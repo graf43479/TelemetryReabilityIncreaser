@@ -1,4 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿//Класс с основными функциями по работе с матрицами
+
+// ---------------------------------------------------------------------------
+// Авторское право © ООО "%CompanyName". Авторские права защищены.
+// Copyright. JSC «%CompanyName» 2016. All rights reserved
+// Компания: %CompanyName
+// Подразделение: %Department
+// Author: Oleg Vorontsov
+// Description: Настоящий класс упрощает работу с матрицами: позволяет инициировать их из json-файла или передачей двумерного массива в конструктор.
+//          Предоставляет доступ к элементам матрицы, позволяет узнать размерность и допускает произвольные действия над членами матрицы.
+// Rational: Данный класс является базовым и упрощает читаемости и понимание в целевых классах.  
+// ---------------------------------------------------------------------------
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -10,7 +22,12 @@ namespace TelemetryEngine
     public class Matrix
     {
         protected int[,] data;
-        
+
+        /// <summary>
+        /// Конструктор, создающий матрицу mxn, заполненную нулями 
+        /// </summary>
+        /// <param name="m">Количество столбцов</param>
+        /// <param name="n">Количество строк</param>
         public Matrix(int m, int n)
         {            
             data = new int[m,n];
@@ -18,6 +35,10 @@ namespace TelemetryEngine
             ProccessFunctionWithData((i, j) => data[i, j] = 0);
         }
 
+        /// <summary>
+        /// Конструктор для случая, когда данные берутся не из JSON файла.
+        /// </summary>
+        /// <param name="data">Двумерный массив 32х20</param>
         public Matrix(int[,] data)
         {
             this.data = data;
@@ -50,6 +71,9 @@ namespace TelemetryEngine
             }
         }
 
+        /// <summary>
+        /// Инициализирована ли матрица
+        /// </summary>
         public bool IsInitialized => data != null;
                         
         /// <summary>
@@ -96,6 +120,10 @@ namespace TelemetryEngine
             }
         }
 
+        /// <summary>
+        /// Текстовое представление матрицы
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string result = "";
