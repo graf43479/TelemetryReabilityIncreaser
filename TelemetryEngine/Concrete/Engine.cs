@@ -1,4 +1,4 @@
-﻿//Класс выполняющий оснонвые задачи по комбинациям ВХД
+﻿//Класс выполняющий основные задачи по комбинациям ВХД
 
 // ---------------------------------------------------------------------------
 // Авторское право © ООО "%CompanyName". Авторские права защищены.
@@ -93,11 +93,6 @@ namespace TelemetryEngine
             {
                 throw new Exception($"Матрица весов mW{channelCount} не обнаружена. Завершение приложения");
             }
-
-            //foreach (var item in matrixes)
-            //{
-            //    Console.WriteLine(item.Name);
-            //}
 
             mBase = new Matrix(path, "mBase");
             if (!mBase.IsInitialized)

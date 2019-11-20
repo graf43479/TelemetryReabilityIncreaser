@@ -89,16 +89,38 @@ namespace DamageVisualizer
 
         private void DataGridCombinations_MouseMove(object sender, MouseEventArgs e)
         {
-            //TODO: Подсветка подсказки
-            /*
-            DataGrid dt = sender as DataGrid;
-            //if (dt.CurrentCell != null)
-            if(e.Source!=null)
+            HitTestResult hitTestResult = VisualTreeHelper.HitTest(DataGridCombinations, e.GetPosition(DataGridCombinations));
+            DataGridRow dataGridRow = hitTestResult.VisualHit.GetParentOfType<DataGridRow>();
+            if (dataGridRow != null)
             {
-                dgTooltip.Content = "Новые данные";
-            }
-            var val = (DataGridCombinations.SelectedItem as Items).Name;
-            */
+                int index = dataGridRow.GetIndex();
+                string combination = ((Items)DataGridCombinations.Items[index]).Name;
+                int len = combination.Length;
+                string message = "";
+                for (int i = 1; i <= len; i++)
+                {
+                    char ch = combination[i - 1];
+                    string tmp = $"Канал №{i}. Интенсивность помех: {ch}\n";
+                    message += tmp;
+                }
+                dgTooltip.Content = message.Substring(0, message.Length-1);
+            }           
         }
     }
+
+    public static class DataExtensions
+    {
+        public static T GetParentOfType<T>(this DependencyObject element) where T : DependencyObject
+        {
+            Type type = typeof(T);
+            if (element == null) return null;
+            DependencyObject parent = VisualTreeHelper.GetParent(element);
+            if (parent == null && ((FrameworkElement)element).Parent is DependencyObject) parent = ((FrameworkElement)element).Parent;
+            if (parent == null) return null;
+            else if (parent.GetType() == type || parent.GetType().IsSubclassOf(type)) return parent as T;
+            return GetParentOfType<T>(parent);
+        }
+    }
+
+    
 }
