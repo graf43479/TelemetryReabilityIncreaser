@@ -5,25 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DamageVisualizer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="610" Width="1198">
+        Title="Визуализация алгоритма" Height="610" Width="1198" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <DockPanel Margin="0,0,0,0" Width="1199" DockPanel.Dock="Top" Height="66" Background="#FFECE4DC">
-            <Button Name="BtnGenerate" Height="35" Margin="10,10,10,10" Width="220" Content="Генерировать исходные данные" Click="BtnGenerate_Click" />
-            <Button Name="BtnCalc" Height="35" Content="Рассчет" Margin="0,10,10,10" Width="149" Click="BtnCalc_Click" HorizontalAlignment="Left" ></Button>
+        <DockPanel Margin="0,0,0,0" Width="1199" DockPanel.Dock="Top" Height="66" Background="SteelBlue">
+            <Button Name="BtnGenerate" Height="35" Margin="10,10,10,10" Width="220" Background="DarkCyan" Content="Генерировать исходные данные" Click="BtnGenerate_Click">
+                <!--<Button.Background>
+                    <ImageBrush ImageSource="D:\Pictures\rectangles.jpg"></ImageBrush>
+                </Button.Background>-->
+                <Button.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                        <GradientStop Color="DarkOrange" Offset="0.25" />
+                        <GradientStop Color="WhiteSmoke" Offset="1.5" />
+                    </LinearGradientBrush>
+                </Button.Foreground>
+            </Button >
+            <Button Name="BtnCalc" Height="35" Content="Рассчет" Margin="0,10,10,10" Width="149" Background="DarkCyan" Click="BtnCalc_Click" HorizontalAlignment="Left" >
+                <Button.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                        <GradientStop Color="DarkOrange" Offset="0.25" />
+                        <GradientStop Color="WhiteSmoke" Offset="1.5" />
+                    </LinearGradientBrush>
+                </Button.Foreground>
+            </Button>
+            <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Background="DarkCyan" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"></GridSplitter>
         </DockPanel>
-        <DockPanel Margin="0,0,0,0"  DockPanel.Dock="Left" Height="528" Background="#FFC4DCD6">
-            <DataGrid Name="DataGridCombinations" Background="Azure" Margin="10,5,8,15" Width="100" SelectionChanged="DataGridCombinations_SelectionChanged" HorizontalGridLinesBrush="#FFCFCACA" VerticalGridLinesBrush="#FFCFCACA" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" MouseMove="DataGridCombinations_MouseMove">
-                <DataGrid.ToolTip>
-                    <ToolTip Name="dgTooltip" AutomationProperties.IsColumnHeader="True">
-                        Каждый порядковый номер цифры - номер канала, а значения - интенсивность помех (max 6)
-                    </ToolTip>
-                </DataGrid.ToolTip>
-            </DataGrid>
-        </DockPanel>
-        <DockPanel Margin="0,0,0,0" DockPanel.Dock="top" Width="1057" Height="518" Background="#FFF0EBE7" >
-            <Grid Margin="0,0,0,0" Height="508">
-                <Canvas Name="myCanvas" Width="1047" Height="507" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-            </Grid>
+        
+        <DockPanel>
+            <DockPanel Margin="0,0,0,0"  DockPanel.Dock="Left" Height="528" Background="SteelBlue">
+                <DataGrid Name="DataGridCombinations" Background="Azure" Margin="10,-25,8,0" Width="100" SelectionChanged="DataGridCombinations_SelectionChanged" HorizontalGridLinesBrush="#FFCFCACA" VerticalGridLinesBrush="#FFCFCACA" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" MouseMove="DataGridCombinations_MouseMove" CanUserResizeColumns="False" CanUserReorderColumns="False" SelectionMode="Single" HorizontalScrollBarVisibility="Hidden" Height="498">
+                    <DataGrid.ToolTip>
+                        <ToolTip Name="dgTooltip" AutomationProperties.IsColumnHeader="True">
+                            Каждый порядковый номер цифры - номер канала, а значения - интенсивность помех (max 6)
+                        </ToolTip>
+                    </DataGrid.ToolTip>
+                </DataGrid>
+            </DockPanel>
+            <StackPanel Orientation="Horizontal">
+                <!--<Separator Background="Red" Width="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"></Separator>-->
+                <Rectangle VerticalAlignment="Stretch" Width="2" Stroke="DarkCyan"></Rectangle>
+            </StackPanel>
+
+            <DockPanel Margin="0,0,0,0" DockPanel.Dock="top" Width="1077" Height="518">
+                <DockPanel.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                        <GradientStop Color="White" Offset="0.25" />
+                        <GradientStop Color="Green" Offset="1.5" />
+                    </LinearGradientBrush>
+                </DockPanel.Background>
+                <!--<GridSplitter Background="Red" Width="2"/>-->
+                <Grid Margin="0,0,0,0" Height="508">
+                    <Canvas Name="myCanvas" Width="1047" Height="507" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                </Grid>
+            </DockPanel>
         </DockPanel>
     </DockPanel>
 </Window>

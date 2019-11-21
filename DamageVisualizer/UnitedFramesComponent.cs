@@ -37,7 +37,7 @@ namespace DamageVisualizer
             {                
                 DrawCustomRectangle(mDif.Coords, new Coord(yOffset, xOffset), mDif.ToString());               
 
-                if ((canvas.Width - xOffset-blockSizeX) < blockSizeX) //xOfFset
+                if ((canvas.Width - xOffset-blockSizeX+mainXOffset) < blockSizeX) //xOfFset
                 {
                     yOffset += 20 * pixelSize + mainYOffset;
                     xOffset = 10;
@@ -63,14 +63,8 @@ namespace DamageVisualizer
             canvas.Children.Add(textBlock);
 
             //закраска области матрицы
-            DrawSimpleRectangle(offset, pixelSize * 32, pixelSize * 20, Colors.White, Colors.Orange);           
+            DrawSimpleRectangle(offset, pixelSize * 32, pixelSize * 20, Colors.White, Colors.Orange, 1);           
 
-            //закраска поврежденных блоков
-            foreach (Coord coord in coords)
-            {
-                Coord tmpCoord = new Coord(coord.X * pixelSize + offset.X, coord.Y * pixelSize + offset.Y);
-                DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, Colors.Coral, Colors.Black);                               
-            }
 
             //закраска сетки
             for (int i = 0; i < 32; i++)
@@ -78,22 +72,28 @@ namespace DamageVisualizer
                 for (int j = 0; j < 20; j++)
                 {
                     Coord tmpCoord = new Coord(j * pixelSize + offset.X, i * pixelSize + offset.Y);
-                    DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Gray);
+                    DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, null, Colors.Lavender, 1);
                 }
             }
 
+            //закраска поврежденных блоков
+            foreach (Coord coord in coords)
+            {
+                Coord tmpCoord = new Coord(coord.X * pixelSize + offset.X, coord.Y * pixelSize + offset.Y);
+                DrawSimpleRectangle(tmpCoord, pixelSize, pixelSize, Colors.Coral, Colors.DarkCyan, 1);                               
+            }
             //закраска всей области c отступами 
-            DrawSimpleRectangle(new Coord(offset.X-1, offset.Y-1), pixelSize * 32+2, pixelSize * 20+2, null, Colors.Black);
+            DrawSimpleRectangle(new Coord(offset.X-3, offset.Y-3), pixelSize * 32+6, pixelSize * 20+6, null, Colors.DarkCyan, 3);
         }
 
-        void DrawSimpleRectangle(Coord coord, int width, int height, Color? fillColor, Color? borderColor)
+        void DrawSimpleRectangle(Coord coord, int width, int height, Color? fillColor, Color? borderColor, int thickness)
         {
             Rectangle border = new Rectangle
             {
                 Height = height,
                 Width = width,
                 Stroke = borderColor == null ? null : new SolidColorBrush((Color)borderColor),                
-                StrokeThickness = 1,
+                StrokeThickness = thickness,
                 Fill = fillColor == null ? null : new SolidColorBrush((Color)fillColor),
             };
 

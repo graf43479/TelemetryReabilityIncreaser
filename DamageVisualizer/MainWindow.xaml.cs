@@ -77,7 +77,7 @@ namespace DamageVisualizer
             if (engine != null & val != null)
             {
                 RawDataMatrix result = engine.PerformCombination(val.ToString());
-                UnitedFramesComponent comp = new UnitedFramesComponent(myCanvas, 10, 10, 30);
+                UnitedFramesComponent comp = new UnitedFramesComponent(myCanvas, 10, 38, 38);
 
                 List<MismatchesCoordList> allCoords = engine.GetMatrixDifference();
                 MismatchesCoordList mainCoords = result.GetMismatches(engine.Etalon);
@@ -107,13 +107,11 @@ namespace DamageVisualizer
                     }
                     dgTooltip.Content = message.Substring(0, message.Length - 1);
                 }
-
             }
             catch (Exception)
             {
-
             }
-                    }
+         }
     }
 
     public static class DataExtensions
