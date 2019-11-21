@@ -9,15 +9,12 @@
 
   <String Id="Language">1033</String>
 
+  <String Id="Description">Настоящее ПО позволяет визуализировать работу алоритма разнесенного приема телеметрической информации</String>
+  <String Id="Keywords">установщик, приложение, телеметрия, помеховая обстановка, ранесенное кодирование, dotnet.core, application, telemetry, installer</String>
+  <String Id="Comments">По вопросам использования обращаться сюда: graf43479@ya.ru</String>
 
-  <String Id="Description">This is description</String>
-  <String Id="Keywords">dotnet.core, aplication, telemetry, installer</String>
-  <String Id="Comments">Some comment</String>
-
-  <String Id="DowngradeErrorMessage">A newer version is already installed</String>
-
-
-
+  <String Id="DowngradeErrorMessage">Актуальная версия программы уже была установлена ранее</String>
+  
   <String Id="WixUIBack" Overridable="yes">&amp;Назад</String>
   <String Id="WixUINext" Overridable="yes">Д&amp;алее</String>
   <String Id="WixUICancel" Overridable="yes">Отмена</String>
