@@ -150,11 +150,7 @@ namespace TelemetryEngine
                 }
             }                                   
 
-            int N_tmp = matrix.GetMismatches(mBase).N; //CheckReliability(matrix);
-            if (N_tmp < 52)
-            {
-                int p = N_tmp; 
-            }
+            int N_tmp = matrix.GetMismatches(mBase).N; //CheckReliability(matrix);           
             
             if (w == mW.GetXSize()-1)
             {
@@ -165,7 +161,7 @@ namespace TelemetryEngine
             if (N == -1 || N_tmp < N)
             {
                 N = N_tmp;
-                k = w;
+                k = w+1; //нумерация с 1
                 Console.WriteLine($"K:====>{k}. N={N}");
                 mResult =matrix;
             }        
