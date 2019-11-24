@@ -45,13 +45,13 @@
                 <Rectangle VerticalAlignment="Stretch" Width="2" Stroke="DarkCyan"></Rectangle>
             </StackPanel>
 
-            <DockPanel Margin="0,0,0,0" DockPanel.Dock="top" Width="1077" Height="518">
-                <DockPanel.Background>
+            <DockPanel Margin="0,0,0,0" DockPanel.Dock="top" Width="1077" Height="518" Background="DarkCyan">
+                <!--<DockPanel.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
                         <GradientStop Color="White" Offset="0.25" />
                         <GradientStop Color="Green" Offset="1.5" />
                     </LinearGradientBrush>
-                </DockPanel.Background>
+                </DockPanel.Background>-->
                 <!--<GridSplitter Background="Red" Width="2"/>-->
                 <Grid Margin="0,0,0,0" Height="508">
                     <Canvas Name="myCanvas" Width="1047" Height="507" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
