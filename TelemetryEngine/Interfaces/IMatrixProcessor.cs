@@ -10,9 +10,6 @@
 //              максимально очищенный от недостоверных данных 
 // Rational: Отобразить основные функции класса-реализатора  
 // ---------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TelemetryEngine.Interfaces
 {

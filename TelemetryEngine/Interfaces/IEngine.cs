@@ -7,16 +7,17 @@
 // Подразделение: %Department
 // Author: Oleg Vorontsov
 // Description: Интерфейс определяет методы:
+//              - InitializeMatrixes - десереализирует исходные данные из JSON файлов
 //              - GetFilteredCombinations - возвращает количество возможных комбинаций блоков данных 
 //                  (в зависимости от количества исходных каналов каждая комбинация может быть 3,4 или 5-значной)
-//              - InitializeMatrixes - десереализирует исходные данные из JSON файлов
 //              - PerformCombination - применяет основной алгоритм к выбранной комбинации и возвращает нормализованный блок данных
+//              - GetMatrixDifference - возвращает блоки итоговой матрицы, несоответствующие эталонной
+//              - Etalon - доступ к проверочной матрице
+//              - Gamma - показатель эффективности примененного алгоритма
 // Rational: Отобразить основные функции класса-реализатора  
 // ---------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TelemetryEngine.Interfaces
 {
@@ -25,5 +26,9 @@ namespace TelemetryEngine.Interfaces
         IEnumerable<Items> GetFilteredCombinations();
         void InitializeMatrixes();
         RawDataMatrix PerformCombination(string testCase);
+
+        List<MismatchesCoordList> GetMatrixDifference();
+        Matrix Etalon { get; }
+        string Gamma { get;  }
     }
 }

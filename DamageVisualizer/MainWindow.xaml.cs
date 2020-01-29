@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TelemetryEngine;
+using TelemetryEngine.Interfaces;
 
 namespace DamageVisualizer
 {
@@ -24,7 +25,7 @@ namespace DamageVisualizer
     public partial class MainWindow : Window
     {
         private string path = "";        
-        Engine engine;                
+        IEngine engine;                
         public MainWindow()
         {
             InitializeComponent();
@@ -61,8 +62,7 @@ namespace DamageVisualizer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-            
+            }            
         }
 
         /// <summary>
@@ -82,16 +82,24 @@ namespace DamageVisualizer
         private void DataGridCombinations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var val = (DataGridCombinations.SelectedItem as Items).Name;
+            
             if (engine != null & val != null)
             {
-                RawDataMatrix result = engine.PerformCombination(val.ToString());
-                UnitedFramesComponent comp = new UnitedFramesComponent(myCanvas, 10, 38, 38);
+                Task<List<MismatchesCoordList>> task = new Task<List<MismatchesCoordList>>(() =>
+                {
+                    List<MismatchesCoordList> allCoords = new List<MismatchesCoordList>();
+                    RawDataMatrix result = engine.PerformCombination(val.ToString());
+                    allCoords = engine.GetMatrixDifference();
+                    MismatchesCoordList mainCoords = result.GetMismatches(engine.Etalon);
+                    mainCoords.Gamma = engine.Gamma;
+                    allCoords.Add(mainCoords);
+                    return allCoords;
+                });
 
-                List<MismatchesCoordList> allCoords = engine.GetMatrixDifference();
-                MismatchesCoordList mainCoords = result.GetMismatches(engine.Etalon);
-                mainCoords.Gamma= engine.Gamma;
-                allCoords.Add(mainCoords);
-                comp.DrawData(allCoords);
+                task.Start();
+
+                UnitedFramesComponent comp = new UnitedFramesComponent(myCanvas, 10, 38, 38);
+                comp.DrawData(task.Result);
             }
         }
 
@@ -109,8 +117,7 @@ namespace DamageVisualizer
                     string message = "";
                     for (int i = 1; i <= len; i++)
                     {
-                        char ch = combination[i - 1];
-                        //string tmp = $"Канал №{i}. Интенсивность помех: {ch}\n";
+                        char ch = combination[i - 1];                        
                         string tmp = $"Канал №{i}. Интенс. помех: {ch}\t";
                         message += tmp;
                     }

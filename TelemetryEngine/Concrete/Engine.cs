@@ -39,7 +39,7 @@ namespace TelemetryEngine
         private Matrix mW;
 
         //Оценка эффективности алгоритма
-        public string Gamma { get; set; }
+        public string Gamma { get; private set; }
 
         /// <summary>
         /// Конструктор. Инициализирует данные из json в каталоге path
