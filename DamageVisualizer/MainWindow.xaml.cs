@@ -48,13 +48,21 @@ namespace DamageVisualizer
         /// <param name="e"></param>
         private void BtnCalc_Click(object sender, RoutedEventArgs e)
         {
-            engine = new Engine(path);
-            //ListBoxCombinations.ItemsSource = engine.GetFilteredCombinations().Select(x=>x.Name);            
-            DataGridCombinations.ItemsSource = engine.GetFilteredCombinations();
-            DataGridCombinations.Columns[0].Header = "№";
-            DataGridCombinations.Columns[1].Header = "Каналы";
-            DataGridCombinations.Columns[0].CanUserResize = false;
-            DataGridCombinations.Columns[1].CanUserResize = false;
+            try
+            {
+                engine = new Engine(path);
+                //ListBoxCombinations.ItemsSource = engine.GetFilteredCombinations().Select(x=>x.Name);            
+                DataGridCombinations.ItemsSource = engine.GetFilteredCombinations();
+                DataGridCombinations.Columns[0].Header = "№";
+                DataGridCombinations.Columns[1].Header = "Каналы";
+                DataGridCombinations.Columns[0].CanUserResize = false;
+                DataGridCombinations.Columns[1].CanUserResize = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         /// <summary>
