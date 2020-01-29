@@ -110,10 +110,12 @@ namespace DamageVisualizer
                     for (int i = 1; i <= len; i++)
                     {
                         char ch = combination[i - 1];
-                        string tmp = $"Канал №{i}. Интенсивность помех: {ch}\n";
+                        //string tmp = $"Канал №{i}. Интенсивность помех: {ch}\n";
+                        string tmp = $"Канал №{i}. Интенс. помех: {ch}\t";
                         message += tmp;
                     }
-                    dgTooltip.Content = message.Substring(0, message.Length - 1);
+                    txtBlockChannelInfo.Text = message.Substring(0, message.Length - 1);
+                    //dgTooltip.Content = message.Substring(0, message.Length - 1);
                 }
             }
             catch (Exception)

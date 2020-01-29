@@ -6,57 +6,41 @@
         xmlns:local="clr-namespace:DamageVisualizer"
         mc:Ignorable="d"
         Title="Визуализация алгоритма" Height="610" Width="1198" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="BtnStyle">
+            <Setter Property="Control.Margin" Value="10,10,10,10" />
+            <Setter Property="Control.Background" Value="DarkCyan" />
+            <Setter Property="Control.Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                        <GradientStop Color="DarkOrange" Offset="0.25" />
+                        <GradientStop Color="WhiteSmoke" Offset="1.5" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <DockPanel>
-        <DockPanel Margin="0,0,0,0" Width="1199" DockPanel.Dock="Top" Height="66" Background="SteelBlue">
-            <Button Name="BtnGenerate" Height="35" Margin="10,10,10,10" Width="220" Background="DarkCyan" Content="Генерировать исходные данные" Click="BtnGenerate_Click">
-                <!--<Button.Background>
-                    <ImageBrush ImageSource="D:\Pictures\rectangles.jpg"></ImageBrush>
-                </Button.Background>-->
-                <Button.Foreground>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
-                        <GradientStop Color="DarkOrange" Offset="0.25" />
-                        <GradientStop Color="WhiteSmoke" Offset="1.5" />
-                    </LinearGradientBrush>
-                </Button.Foreground>
+        <DockPanel DockPanel.Dock="Top" Background="SteelBlue" Height="50">
+            <Button Name="BtnGenerate" Width="220" Style="{StaticResource ResourceKey=BtnStyle}" Content="Генерировать исходные данные" Click="BtnGenerate_Click">
             </Button >
-            <Button Name="BtnCalc" Height="35" Content="Рассчет" Margin="0,10,10,10" Width="149" Background="DarkCyan" Click="BtnCalc_Click" HorizontalAlignment="Left" >
-                <Button.Foreground>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
-                        <GradientStop Color="DarkOrange" Offset="0.25" />
-                        <GradientStop Color="WhiteSmoke" Offset="1.5" />
-                    </LinearGradientBrush>
-                </Button.Foreground>
+            <Button Name="BtnCalc" Content="Рассчет" Width="149" Style="{StaticResource ResourceKey=BtnStyle}" Click="BtnCalc_Click" HorizontalAlignment="Left" >
             </Button>
-            <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Background="DarkCyan" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"></GridSplitter>
         </DockPanel>
-        
-        <DockPanel>
-            <DockPanel Margin="0,0,0,0"  DockPanel.Dock="Left" Height="528" Background="SteelBlue">
-                <DataGrid Name="DataGridCombinations" Background="Azure" Margin="10,-25,8,0" Width="100" SelectionChanged="DataGridCombinations_SelectionChanged" HorizontalGridLinesBrush="#FFCFCACA" VerticalGridLinesBrush="#FFCFCACA" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" MouseMove="DataGridCombinations_MouseMove" CanUserResizeColumns="False" CanUserReorderColumns="False" SelectionMode="Single" HorizontalScrollBarVisibility="Hidden" Height="498">
-                    <DataGrid.ToolTip>
-                        <ToolTip Name="dgTooltip" AutomationProperties.IsColumnHeader="True">
-                            Каждый порядковый номер цифры - номер канала, а значения - интенсивность помех (max 6)
-                        </ToolTip>
-                    </DataGrid.ToolTip>
-                </DataGrid>
-            </DockPanel>
-            <StackPanel Orientation="Horizontal">
-                <!--<Separator Background="Red" Width="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"></Separator>-->
-                <Rectangle VerticalAlignment="Stretch" Width="2" Stroke="DarkCyan"></Rectangle>
-            </StackPanel>
-
-            <DockPanel Margin="0,0,0,0" DockPanel.Dock="top" Width="1077" Height="518" Background="DarkCyan">
-                <!--<DockPanel.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
-                        <GradientStop Color="White" Offset="0.25" />
-                        <GradientStop Color="Green" Offset="1.5" />
-                    </LinearGradientBrush>
-                </DockPanel.Background>-->
-                <!--<GridSplitter Background="Red" Width="2"/>-->
-                <Grid Margin="0,0,0,0" Height="508">
-                    <Canvas Name="myCanvas" Width="1047" Height="507" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                </Grid>
-            </DockPanel>
+        <DockPanel DockPanel.Dock="Left" Background="SteelBlue" Width="110">
+            <DataGrid Name="DataGridCombinations" Background="Azure" Margin="5,5,5,5" SelectionChanged="DataGridCombinations_SelectionChanged" HorizontalGridLinesBrush="#FFCFCACA" VerticalGridLinesBrush="#FFCFCACA" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" MouseMove="DataGridCombinations_MouseMove" CanUserResizeColumns="False" CanUserReorderColumns="False" SelectionMode="Single" HorizontalScrollBarVisibility="Hidden">
+                <DataGrid.ToolTip>
+                    <ToolTip Name="dgTooltip" AutomationProperties.IsColumnHeader="True">
+                        Каждый порядковый номер цифры - номер канала, а значения - интенсивность помех (max 6)
+                    </ToolTip>
+                </DataGrid.ToolTip>
+            </DataGrid>
         </DockPanel>
-    </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Height="20">
+            <TextBlock x:Name="txtBlockChannelInfo" Background="SteelBlue" Foreground="Orange"></TextBlock>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Right" Background="DarkCyan">            
+             <Canvas Name="myCanvas" Width="1090"   />                         
+        </DockPanel>        
+    </DockPanel>    
 </Window>
